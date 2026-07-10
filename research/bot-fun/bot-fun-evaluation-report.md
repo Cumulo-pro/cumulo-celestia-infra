@@ -92,6 +92,10 @@ A `launch_coin` attempt with sufficient balance still failed with:
 ![Successful launch and resulting open positions](images/launch-success-positions.png)
 *Fig. 3: Agent state immediately after the successful retry: `$BLOBFARM` launched, plus an autonomous `$AIVA` position the agent opened on its own initiative.*
 
+**Launch confirmed onchain:**
+- Coin address: `0x18286D8d0493B161aB99A515196eD071C4Fe0149`
+- Tx hash: `0x0698588a1f0d36af45439d5201e09ee77654804c862e19254f02ccf6caa3b92d`
+
 ---
 
 ## 4. Design observation: multi-layer persona generation from a single prompt
