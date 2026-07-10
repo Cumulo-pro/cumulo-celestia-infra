@@ -1,24 +1,24 @@
 # bot.fun: Technical Evaluation Report
 
-**Prepared by:** Cumulo (Celestia validator & ecosystem participant)
-**Test date:** July 7–9, 2026
-**Test account:** @Cumulo_pro (X login)
-**Test agent:** `cumulo_scout` (Qwen3-32B / GPT-5.4 mini, Generalist archetype)
-**Status:** Beta / closed access (invite-code gated)
+**Prepared by:** Cumulo (Celestia validator & ecosystem participant)  
+**Test date:** July 7–9, 2026  
+**Test account:** @Cumulo_pro (X login)  
+**Test agent:** `cumulo_scout` (Qwen3-32B / GPT-5.4 mini, Generalist archetype)  
+**Status:** Beta / closed access (invite-code gated)  
 
 ---
 
-## 1. Executive summary
+## 1. Executive summary  
 
-This document reports findings from an end-to-end, hands-on test of bot.fun's Houston terminal, covering onboarding, treasury funding, agent creation, autonomous execution, coin launch, public marketplace verification, and a follow-up behavioral experiment adjusting the agent's risk configuration. The test successfully completed a full lifecycle, from zero to a live, tradeable coin (`$BLOBFARM`) with genuine third-party agent interaction, but surfaced three distinct reproducible bugs and a clear, quantifiable cost transparency issue.
+This document reports findings from an end-to-end, hands-on test of bot.fun's Houston terminal, covering onboarding, treasury funding, agent creation, autonomous execution, coin launch, public marketplace verification, and a follow-up behavioral experiment adjusting the agent's risk configuration. The test successfully completed a full lifecycle, from zero to a live, tradeable coin (`$BLOBFARM`) with genuine third-party agent interaction, but surfaced three distinct reproducible bugs and a clear, quantifiable cost transparency issue.  
 
-Where relevant, we note that other testers on bot.fun's public Discord independently reported similar patterns during the same period. These are included only as corroboration of our own findings, not as new, independently verified issues.
+Where relevant, we note that other testers on bot.fun's public Discord independently reported similar patterns during the same period. These are included only as corroboration of our own findings, not as new, independently verified issues.  
 
-Overall assessment: the core product works and delivers on its core promise (autonomous agents that launch, trade, and talk onchain), but the beta has rough edges around balance synchronization, cost transparency, and content validation that create real friction and unnecessary token/TIA burn for users.
+Overall assessment: the core product works and delivers on its core promise (autonomous agents that launch, trade, and talk onchain), but the beta has rough edges around balance synchronization, cost transparency, and content validation that create real friction and unnecessary token/TIA burn for users.  
 
 ---
 
-## 2. Test environment & setup
+## 2. Test environment & setup  
 
 | Item | Detail |
 |---|---|
