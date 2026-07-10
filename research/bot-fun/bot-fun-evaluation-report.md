@@ -1,4 +1,4 @@
-# bot.fun — Technical Evaluation Report
+# bot.fun: Technical Evaluation Report
 
 **Prepared by:** Cumulo (Celestia validator & ecosystem participant)
 **Test date:** July 7–9, 2026
@@ -32,7 +32,7 @@ Overall assessment: the core product works and delivers on its core promise (aut
 
 ## 3. Bugs identified
 
-### 🐛 Bug #1 — Context length overflow on first execution cycle
+### 🐛 Bug #1: Context length overflow on first execution cycle
 **Severity: Medium (blocks first cycle, costs TIA on failure)**
 
 On the agent's very first cycle, execution failed with:
@@ -50,11 +50,11 @@ prompt contains at least 24577 input tokens, for a total of at least 40961 token
 **Recommendation:** Dynamically calculate `max_tokens` based on remaining context budget after the system prompt + persona block is assembled, rather than requesting a fixed output length regardless of input size. Consider capping generated persona length or summarizing it before injection into the execution prompt.
 
 ![Cycle 1 context overflow error](images/bug1-context-overflow.png)
-*Fig. 1 — Cycle 1 log showing the two tool calls executed before failure, and the raw 400 error from the underlying model API.*
+*Fig. 1: Cycle 1 log showing the two tool calls executed before failure, and the raw 400 error from the underlying model API.*
 
 ---
 
-### 🐛 Bug #2 — Balance desynchronization between dashboard UI and agent tool calls
+### 🐛 Bug #2: Balance desynchronization between dashboard UI and agent tool calls
 **Severity: High (repeated 3x, causes false negatives on valid actions, erodes trust)**
 
 Observed **three separate times** during testing: the Houston dashboard sidebar showed one balance while the agent's own `get_balance` tool call returned a materially different (always lower) figure.
@@ -72,11 +72,11 @@ Observed **three separate times** during testing: the Houston dashboard sidebar 
 **Recommendation:** Reconcile the dashboard balance source with the same read path used by agent tool calls (single source of truth), or at minimum surface a visible "pending/unconfirmed" state on the dashboard so users understand the discrepancy is transient rather than a bug on their end.
 
 ![Balance discrepancy between dashboard and agent](images/bug2-balance-discrepancy.png)
-*Fig. 2 — Dashboard sidebar shows 1.13 TIA while the agent's own `get_balance` call returns 0.964276 TIA in the same moment.*
+*Fig. 2: Dashboard sidebar shows 1.13 TIA while the agent's own `get_balance` call returns 0.964276 TIA in the same moment.*
 
 ---
 
-### 🐛 Bug #3 — SVG/icon generation produces invalid XML, rejected by launch validation
+### 🐛 Bug #3: SVG/icon generation produces invalid XML, rejected by launch validation
 **Severity: Medium (costly to retry, silent failure mode)**
 
 A `launch_coin` attempt with sufficient balance still failed with:
@@ -90,23 +90,23 @@ A `launch_coin` attempt with sufficient balance still failed with:
 **Recommendation:** Add client-side or pre-submission XML validation/sanitization of generated SVG output before it reaches the launch transaction, so invalid art is caught and regenerated *before* being charged and submitted onchain, not after.
 
 ![Successful launch and resulting open positions](images/launch-success-positions.png)
-*Fig. 3 — Agent state immediately after the successful retry: `$BLOBFARM` launched, plus an autonomous `$AIVA` position the agent opened on its own initiative.*
+*Fig. 3: Agent state immediately after the successful retry: `$BLOBFARM` launched, plus an autonomous `$AIVA` position the agent opened on its own initiative.*
 
 ---
 
-## 4. Design observation — multi-layer persona generation from a single prompt
+## 4. Design observation: multi-layer persona generation from a single prompt
 
 Not a bug, but a notable architectural finding: a single one-sentence Character input ("A Celestia validator who only talks about data availability, TIA burn mechanics, and modular blockchains") produced a structured **three-layer persona**:
 
-1. **Executor Directive** — backstory + underlying motivation/behavior rules
-2. **Social Voice** — public-facing tone with example post templates
-3. **Strategist Voice** — a *separate, distinct* internal/private reasoning tone used for trade decisions, plus a bullet list of persistent behavioral rules
+1. **Executor Directive**: backstory + underlying motivation/behavior rules
+2. **Social Voice**: public-facing tone with example post templates
+3. **Strategist Voice**: a *separate, distinct* internal/private reasoning tone used for trade decisions, plus a bullet list of persistent behavioral rules
 
 This is a meaningfully more sophisticated system than the "just chat with Houston" framing suggests, and it directly explains Bug #1 (this generated block is long and gets injected wholesale into every execution cycle's prompt).
 
 ---
 
-## 5. Cost transparency — AI compute burn is the dominant cost, not trading fees
+## 5. Cost transparency: AI compute burn is the dominant cost, not trading fees
 
 The AI Spend log revealed the following model usage breakdown for a single agent across ~45 minutes:
 
@@ -127,18 +127,18 @@ The AI Spend log revealed the following model usage breakdown for a single agent
 
 ---
 
-## 6. Positive finding — cross-agent interaction confirmed working as advertised
+## 6. Positive finding: cross-agent interaction confirmed working as advertised
 
 Within about 10 minutes of our agent launching its coin (`$BLOBFARM`), two independent third-party agents, `dragomind.bf` and `lucky_spark.bf`, bought in on their own, citing the coin's thematic fit with their own investment logic. One post read simply: *"aligns with data availability sampling and modular bandwidth themes."*
 
 More strikingly, nearly a day later, `dragomind.bf` **sold** its position, framing the exit in openly dismissive, almost ideological terms, dismissing our coin as not fitting its own worldview. That's not two bots executing the same script. That's two differently-tuned personas actually disagreeing about the world, onchain, with money attached.
 
 ![BLOBFARM public page showing third-party agent activity](images/blobfarm-public-cross-agent.png)
-*Fig. 4 — Public bot.fun activity feed for `$BLOBFARM`, showing independent agents `dragomind.bf` and `lucky_spark.bf` buying and posting about the coin unprompted, alongside the test agent's own rotation activity.*
+*Fig. 4: Public bot.fun activity feed for `$BLOBFARM`, showing independent agents `dragomind.bf` and `lucky_spark.bf` buying and posting about the coin unprompted, alongside the test agent's own rotation activity.*
 
 ---
 
-## 7. Behavioral experiment — can overtrading be tuned via prompt-level rules?
+## 7. Behavioral experiment: can overtrading be tuned via prompt-level rules?
 
 After roughly 24 hours, our agent's trading pattern showed a clear, repeated shape: constant rotation between coins, with small, consistent losses (-0.9% to -1.9% per sale) justified almost every time by the same "rotate into fresher narrative" logic baked into its default rules.
 
@@ -161,7 +161,7 @@ This is a system where prompt-level engineering has a genuine, quantifiable effe
 
 ## 8. Other operational notes
 
-- **"Agents run only while this tab is open"** — this in-app banner directly contradicts marketing copy ("they hit the trenches for you, even while you sleep"). **Corroborated independently on Discord:** a user requested a mobile app specifically so agents could run in the background 24/7, confirming this is a felt limitation for other testers, not just an artifact of our own setup.
+- **"Agents run only while this tab is open"**: this in-app banner directly contradicts marketing copy ("they hit the trenches for you, even while you sleep"). **Corroborated independently on Discord:** a user requested a mobile app specifically so agents could run in the background 24/7, confirming this is a felt limitation for other testers, not just an artifact of our own setup.
 - **Faucet policy changed mid-beta**: dropped from 20 → 5 TIA, then was fully paused ("codes do not come with funds for now") within the ~24h window of this test.
 - **Treasury cannot be fully drained via Fund**: the UI enforces a small reserve for gas, but the exact minimum reserve is not displayed upfront, users discover it via a failed "Insufficient balance" error after selecting a preset amount.
 - **Minimum viable launch cost confirmed empirically: ~1.1 TIA** (1.0 TIA launch buy + gas cushion), per the agent's own calculation, though this does *not* include the cost of art generation/regeneration, which should be budgeted separately (see Section 5).
@@ -179,8 +179,8 @@ This is a system where prompt-level engineering has a genuine, quantifiable effe
 | AI compute cost >> trading fee cost per session | Cost transparency | Medium | Observed, quantified, corroborated by 3+ independent Discord users |
 | "Runs only while tab open" vs. marketing claim | Messaging inconsistency | Medium | Confirmed via in-app banner, corroborated by independent feature request |
 | Rules/strategy override triggers unpredictably | Behavioral finding | Medium | Observed, corroborated by 1 independent Discord case |
-| Cross-agent discovery/interaction | Positive validation | — | Confirmed working |
-| Prompt-level risk tuning affects outcomes | Positive validation | — | Confirmed, quantified before/after |
+| Cross-agent discovery/interaction | Positive validation |: | Confirmed working |
+| Prompt-level risk tuning affects outcomes | Positive validation |: | Confirmed, quantified before/after |
 
 ---
 
