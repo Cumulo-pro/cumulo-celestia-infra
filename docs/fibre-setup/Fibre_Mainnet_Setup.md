@@ -63,7 +63,7 @@ Key points:
 | Fibre client port `7980` reachable from the Internet | Confirmed from an external network |
 | Separate disks for Fibre and celestia-app data | **Accepted deviation**: same volume, with ample free space and monitoring |
 
-## Step 1 — A dedicated CA and certificates
+## Step 1   A dedicated CA and certificates
 
 Following the celestia-core privval TLS guide, we created a CA used **only** for this link, plus:
 
@@ -101,7 +101,7 @@ Tips:
 - To check a key matches its certificate: `openssl x509 -noout -pubkey -in X.crt | sha256sum` must equal `openssl pkey -pubout -in X.key | sha256sum`.
 - Note the expiry date (825 days here) and add a renewal reminder. Certificates are loaded at startup, so rotation means issuing new ones from the same CA and restarting both services.
 
-## Step 2 — Validator host: mTLS signer listener
+## Step 2   Validator host: mTLS signer listener
 
 Certificates go inside the node's home, owned by the node's user (our service runs with `ProtectSystem=full` under a dedicated user), with the private key at `0600`.
 
@@ -125,7 +125,7 @@ Applying it requires one node restart. We did it well before activation, at a qu
 - the multiplexer process logs `Started privval gRPC server addr=<validator-address>:26669`, while the embedded v9 child logs `Disabling privval gRPC server`, which is expected;
 - we confirmed the validator was signing again by checking its signature in the last commits.
 
-## Step 3 — Fibre host
+## Step 3   Fibre host
 
 ### Standby node
 
@@ -182,7 +182,7 @@ Same pipeline as on Mocha: Fibre pushes OTLP to a local OpenTelemetry Collector,
 - Recent `otelcol-contrib` releases ship a `.sha256` file per archive instead of a single checksums file.
 - `fibre.server.sign.duration` measures how long Fibre waits for endorsements. It is **not** the metric behind the 10 ms requirement; that one is `cometbft_privval_signing_latency_*` on celestia-app, and only applies to remote signers.
 
-## Step 4 — Testing the link before activation
+## Step 4   Testing the link before activation
 
 Fibre itself can't run before v10, but the signing link can be tested with `openssl s_client`, which performs the same TLS handshake.
 
@@ -213,7 +213,7 @@ Our results:
 
 What can't be tested on mainnet before v10: Fibre actually starting, a real `SignRawBytes` signature over the remote link, and Fibre's behaviour if the validator restarts while Fibre is running (not documented). Our fallback plan covers the first two; for the last one, our rule is to restart Fibre and check its log after any validator restart.
 
-## Step 5 — Activation day
+## Step 5   Activation day
 
 1. **Before the height:** both nodes synced, signer listener up, collector running, Fibre installed but stopped, operator key available on the machine that will sign `set-host`.
 2. **After the height:** confirm `app_version` is `10` on every node (`curl -s localhost:26657/abci_info`) and that the validator is still signing. Don't continue until both are true.
