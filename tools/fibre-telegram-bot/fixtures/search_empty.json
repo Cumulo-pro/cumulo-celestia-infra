@@ -1,0 +1,13 @@
+{
+  "chain": "mocha-5",
+  "query": "zzzz",
+  "kinds": [],
+  "totals": {
+    "blobs": 0,
+    "events": 0
+  },
+  "blobs": [],
+  "events": [],
+  "validators": [],
+  "day": null
+}

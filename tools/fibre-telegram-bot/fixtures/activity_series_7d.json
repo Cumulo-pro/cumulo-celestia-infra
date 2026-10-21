@@ -1,0 +1,39 @@
+{
+  "chain": "mocha-5",
+  "range": "7d",
+  "step_s": 3600,
+  "points": [
+    {
+      "t": "2026-09-27T09:00:00.000Z",
+      "blobs": 0,
+      "bytes": 0,
+      "fees_utia": 0,
+      "timeouts": 0,
+      "payers": 0
+    },
+    {
+      "t": "2026-10-04T07:00:00.000Z",
+      "blobs": 4,
+      "bytes": 69206016,
+      "fees_utia": 14480000,
+      "timeouts": 0,
+      "payers": 1
+    },
+    {
+      "t": "2026-10-04T08:00:00.000Z",
+      "blobs": 3,
+      "bytes": 23855104,
+      "fees_utia": 6045000,
+      "timeouts": 0,
+      "payers": 1
+    },
+    {
+      "t": "2026-10-04T09:00:00.000Z",
+      "blobs": 2,
+      "bytes": 5767168,
+      "fees_utia": 2290000,
+      "timeouts": 0,
+      "payers": 1
+    }
+  ]
+}
