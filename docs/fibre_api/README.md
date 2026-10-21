@@ -1,12 +1,19 @@
 # Fibre Network Monitor API
 
+[![Fibre status mainnet](https://fibre-api.cumulo.com.es/v1/celestia/badge/celestiavalcons12prlnu0qe7lyhj69h04q6xh8pwpyxsfdtj9wel.svg)](https://cumulo.pro/services/celestia/fibre.php)
+[![Fibre uptime 30d mainnet](https://fibre-api.cumulo.com.es/v1/celestia/badge/celestiavalcons12prlnu0qe7lyhj69h04q6xh8pwpyxsfdtj9wel.svg?metric=uptime&period=d30)](https://cumulo.pro/services/celestia/fibre.php)
+[![network ready 2/3 mainnet](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ffibre-api.cumulo.com.es%2Fv1%2Fcelestia%2Fsummary&query=%24.readiness.ready_meets_threshold&label=mainnet%20ready%202%2F3&color=informational&style=flat&cacheSeconds=600)](https://cumulo.pro/services/celestia/fibre.php)
+
 [![Fibre status](https://fibre-api.cumulo.com.es/v1/mocha-5/badge/celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx.svg)](https://cumulo.pro/services/celestia_mocha/fibre-api)
 [![Fibre uptime 30d](https://fibre-api.cumulo.com.es/v1/mocha-5/badge/celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx.svg?metric=uptime&period=d30)](https://cumulo.pro/services/celestia_mocha/fibre-api)
-[![network ready 2/3](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ffibre-api.cumulo.com.es%2Fv1%2Fmocha-5%2Fsummary&query=%24.readiness.ready_meets_threshold&label=network%20ready%202%2F3&color=informational&style=flat&cacheSeconds=600)](./fibre-network-dashboard.md)
+[![network ready 2/3](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ffibre-api.cumulo.com.es%2Fv1%2Fmocha-5%2Fsummary&query=%24.readiness.ready_meets_threshold&label=mocha%20ready%202%2F3&color=informational&style=flat&cacheSeconds=600)](./fibre-network-dashboard.md)
 
-A public, read-only API by [Cumulo](https://cumulo.pro) that monitors **Fibre**, the validator-operated blob publishing protocol of Celestia (CIP-51, live on `mocha-5` since the v10 upgrade). It tells you, for every validator and for the network as a whole, whether Fibre hosts are registered and ready, how close the network is to the 2/3 threshold, how fast quorum is reached from several regions, whether shards are retained, and what publishers pay.
+A public, read-only API by [Cumulo](https://cumulo.pro) that monitors **Fibre**, the validator-operated blob publishing protocol of Celestia (CIP-51, live on Celestia **mainnet** since 2026-10-20 and on the `mocha-5` testnet since the v10 upgrade). It tells you, for every validator and for the network as a whole, whether Fibre hosts are registered and ready, how close the network is to the 2/3 threshold, how fast quorum is reached from several regions, whether shards are retained, and what publishers pay.
 
 No key, no sign-up: `GET` requests, open CORS, JSON and Prometheus formats.
+
+> [!NOTE]
+> The API serves two networks. Use the chain key in every path: `celestia` for **mainnet** (Fibre live since 2026-10-20) and `mocha-5` for the **Mocha testnet**. `/v1/chains` lists them and tells you whether Fibre is active on each one (`fibre_active`).
 
 ## Start here
 
@@ -27,7 +34,7 @@ No key, no sign-up: `GET` requests, open CORS, JSON and Prometheus formats.
 
 ```bash
 API=https://fibre-api.cumulo.com.es
-CHAIN=mocha-5
+CHAIN=celestia   # mainnet; use mocha-5 for the testnet
 
 # Is the network above 2/3 of ready stake?
 curl -s "$API/v1/$CHAIN/summary" | jq '.readiness | {ready_meets_threshold, ready_stake_pct, validators_needed_to_threshold}'
@@ -45,11 +52,12 @@ curl -s "$API/v1/$CHAIN/blobs/stats?period=24h" | jq '{settlements, bytes, fees_
 | | |
 |---|---|
 | **Base URL** | `https://fibre-api.cumulo.com.es` |
-| **Network** | `mocha-5` (Celestia testnet) |
+| **Networks** | `celestia` (mainnet) and `mocha-5` (testnet) |
 | **Access** | No key, `GET` only, open CORS |
 | **Freshness** | Recomputed every minute, cached 30 to 60 seconds |
 | **Limits** | 120 requests per minute per IP (search: 20) |
-| **Tracking since** | 2026-09-25 |
+| **Tracking since** | mainnet 2026-10-20 · mocha-5 2026-09-25 |
+| **Dashboards** | [mainnet](https://cumulo.pro/services/celestia/fibre.php) · [mocha-5](https://cumulo.pro/services/celestia_mocha/fibre.php) |
 | **Official page** | [cumulo.pro/services/celestia_mocha/fibre-api](https://cumulo.pro/services/celestia_mocha/fibre-api) (OpenAPI 3.1) |
 
 > [!IMPORTANT]
@@ -60,7 +68,7 @@ curl -s "$API/v1/$CHAIN/blobs/stats?period=24h" | jq '{settlements, bytes, fees_
 | File | What it is |
 |---|---|
 | [`fibre-api-guide.md`](./fibre-api-guide.md) | Full usage guide with real responses: every endpoint, conventions, Prometheus, alerts, archive and client examples. |
-| [`fibre-network-dashboard.md`](./fibre-network-dashboard.md) | Network status board made only of badges. Copy any badge into your own page. |
+| [`fibre-network-dashboard.md`](./fibre-network-dashboard.md) | Network status board for `mocha-5`, made only of badges. Copy any badge into your own page. |
 | [`generate_network_dashboard.py`](./generate_network_dashboard.py) | Generator for the dashboard (Python 3, standard library only). |
 
 The dashboard values update by themselves because every badge reads the API live. Run the generator again only when the API adds fields or the shape of its lists changes:
@@ -79,4 +87,4 @@ Questions, bugs or ideas: open an issue in this repository or reach us at [cumul
 
 ---
 
-<sub>Maintained by [Cumulo](https://cumulo.pro) · Data from Celestia `mocha-5` testnet · API version: v1</sub>
+<sub>Maintained by [Cumulo](https://cumulo.pro) · Data from Celestia mainnet and `mocha-5` testnet · API version: v1</sub>

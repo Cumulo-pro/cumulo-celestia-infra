@@ -1,5 +1,6 @@
 # Fibre Network Monitor API · Usage Guide
 
+[![Fibre status mainnet](https://fibre-api.cumulo.com.es/v1/celestia/badge/celestiavalcons12prlnu0qe7lyhj69h04q6xh8pwpyxsfdtj9wel.svg)](https://cumulo.pro/services/celestia/fibre.php)
 [![Fibre status](https://fibre-api.cumulo.com.es/v1/mocha-5/badge/celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx.svg)](https://cumulo.pro/services/celestia_mocha/fibre-api)
 [![Fibre uptime 30d](https://fibre-api.cumulo.com.es/v1/mocha-5/badge/celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx.svg?metric=uptime&period=d30)](https://cumulo.pro/services/celestia_mocha/fibre-api)
 
@@ -8,14 +9,14 @@ A public, read-only API with no key required. It exposes everything the **Fibre 
 | | |
 |---|---|
 | **Base URL** | `https://fibre-api.cumulo.com.es` |
-| **Network** | `mocha-5` (Celestia testnet) |
+| **Networks** | `celestia` (mainnet) and `mocha-5` (testnet) |
 | **Access** | No key, `GET` only, open CORS |
 | **Freshness** | Recomputed every minute |
 | **Limits** | 120 requests per minute per IP (search: 20) |
 | **Official docs** | [cumulo.pro/services/celestia_mocha/fibre-api](https://cumulo.pro/services/celestia_mocha/fibre-api), OpenAPI 3.1 |
 
 > [!NOTE]
-> Every output in this guide is a **real response** (trimmed for readability), captured on 2026-10-03 with aggregator version `1.21.0`. The numbers will change; the structure is what matters.
+> Every output in this guide is a **real response** (trimmed for readability), captured on `mocha-5` on 2026-10-03 with aggregator version `1.21.0`. Mainnet answers with the same structure. The numbers will change; the structure is what matters.
 
 ## Contents
 
@@ -47,9 +48,11 @@ The examples use `curl` and [`jq`](https://jqlang.github.io/jq/). Define these v
 
 ```bash
 API=https://fibre-api.cumulo.com.es
-CHAIN=mocha-5
-VAL=celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx
+CHAIN=mocha-5      # celestia for mainnet
+VAL=celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx   # Cumulo on mocha-5
 ```
+
+The `valcons` of a validator is different on each network. On mainnet, set `CHAIN=celestia` and look up the `valcons` again as shown below.
 
 A validator can be named by its **consensus address** (`valcons`), its **operator address** (`valoper`) or its **moniker** (exact match, case-insensitive). If a moniker is shared by several validators, the API answers `409` with `{"error":"ambiguous","candidates":[...]}`. Use the `valcons` in that case.
 
@@ -59,6 +62,16 @@ Don't know your `valcons`? Look it up by moniker:
 VAL=$(curl -s "$API/v1/$CHAIN/search?q=Cumulo" | jq -r '.validators[0].valcons')
 echo $VAL
 ```
+
+### Networks
+
+The API serves Celestia **mainnet** (chain key `celestia`) and the **Mocha testnet** (`mocha-5`). Every path takes the chain key: `/v1/celestia/summary`, `/v1/mocha-5/summary`. The examples in this guide were captured on `mocha-5`; the same calls and response structures work on mainnet.
+
+```bash
+curl -s "$API/v1/chains" | jq '.chains[] | {key, chain_id, network, fibre_active, app_version}'
+```
+
+When a chain is listed but Fibre is **not active on it yet**, its endpoints answer `503` with `"error": "fibre_not_active"`, an `activation` object (blocks left and an estimated time) and `Retry-After: 600`. That is not an outage: ask again after `Retry-After`, and start using the chain when `/v1/chains` reports `fibre_active: true`.
 
 ### Conventions
 
@@ -632,7 +645,7 @@ curl -s "$API/v1/$CHAIN/search?q=2026-09-28" | jq -r '.day.files[] | [.kind, .na
 
 ## 12. Badges
 
-Embeddable SVG badges for READMEs, websites or Discord:
+Embeddable SVG badges for READMEs, websites or Discord. Replace `mocha-5` with `celestia` for mainnet, and `VALCONS` with the validator's `valcons` on that network:
 
 ```markdown
 ![status](https://fibre-api.cumulo.com.es/v1/mocha-5/badge/VALCONS.svg)
@@ -662,7 +675,7 @@ Embeddable SVG badges for READMEs, websites or Discord:
 scrape_configs:
   - job_name: fibre
     scheme: https
-    metrics_path: /v1/mocha-5/metrics
+    metrics_path: /v1/mocha-5/metrics   # /v1/celestia/metrics for mainnet
     params:
       validator: ['celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx']
     scrape_interval: 60s   # the data changes once per minute
@@ -746,7 +759,8 @@ The full list (72 families) is always in the `/metrics` response itself. The mos
 `/validator/{id}/status` is designed for plain HTTP monitors (UptimeRobot, Uptime Kuma, Healthchecks and similar): **200 when the host is ready, 503 when it is not**, with nothing to parse.
 
 ```text
-URL:     https://fibre-api.cumulo.com.es/v1/mocha-5/validator/<valcons>/status?unknown=ok
+URL:     https://fibre-api.cumulo.com.es/v1/<chain>/validator/<valcons>/status?unknown=ok
+         (<chain>: celestia for mainnet, mocha-5 for the testnet)
 Method:  GET
 Alert:   when the answer is not 200
 ```
@@ -922,13 +936,13 @@ On endpoints marked `stable`, the v1 policy is that fields are only **added**, n
 
 ## 18. Endpoint reference
 
-All endpoints are `GET`. Replace `{chain}` with `mocha-5`.
+All endpoints are `GET`. Replace `{chain}` with `celestia` (mainnet) or `mocha-5` (testnet).
 
 ### Network
 
 | Endpoint | Status | Description |
 |---|---|---|
-| `/v1/chains` | stable | Chains served and whether data is available. |
+| `/v1/chains` | stable | Chains served: `key`, `chain_id`, `network`, `available`, `fibre_active`, `app_version`. |
 | `/v1/{chain}/summary` | stable | Readiness against 2/3, quorum per region, liveness, concentration, missing validators, parameters, escrow and 24h figures. |
 | `/v1/{chain}/timeseries?range=` | stable | Network series: registered and ready validators and stake, countries, hosting companies, liveness and RTT. `range`: `24h`, `7d`, `30d`, `all`. |
 | `/health` | stable | Aggregator version, probe regions answering and history index size. |
@@ -994,7 +1008,8 @@ All endpoints are `GET`. Replace `{chain}` with `mocha-5`.
 - **Placeholders such as `<...>` must be replaced.** They are sent literally and return empty results or a `404`.
 - **Polling faster than once a minute is pointless.** Caching and recomputation run every 30 to 60 seconds.
 - **If you see `monitor_unknown`, the problem is on the monitor side**, not your host.
+- **A `503` with `fibre_not_active` is not an outage.** Fibre is not live on that chain yet: wait for `Retry-After` and check `/v1/chains`.
 
 ---
 
-<sub>Maintained by [Cumulo](https://cumulo.pro) · Data from Celestia `mocha-5` testnet · API version: v1</sub>
+<sub>Maintained by [Cumulo](https://cumulo.pro) · Data from Celestia mainnet and `mocha-5` testnet · API version: v1</sub>
