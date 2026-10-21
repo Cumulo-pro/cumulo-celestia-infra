@@ -58,7 +58,8 @@ Report card → [This week] [Last week] [This month] [Last month] [This year]
 network (Mainnet / Mocha testnet).
 
 **Inline mode.** Type `@CumuloFibreBot` in any chat (the bot does not need to be a member) and pick
-a card. `@CumuloFibreBot cumulo` shows cards for one validator, matched locally by moniker.
+a card. `@CumuloFibreBot cumulo` shows cards for one validator, matched locally by moniker. Some groups
+block inline bots: there, open the card in the bot and forward it.
 
 ## Build your own with the Fibre API
 

@@ -74,7 +74,8 @@ def help_text(registry: ChainRegistry) -> str:
         "/help: this message\n\n"
         f"{networks}"
         "Share a card in any chat: type @CumuloFibreBot in the message box, or "
-        "@CumuloFibreBot cumulo for a validator.\n\n"
+        "@CumuloFibreBot cumulo for a validator. If a group blocks inline bots, open the card "
+        "here and forward it.\n\n"
         "Figures come from Cumulo's Fibre Network Monitor and refresh every minute. "
         '"n/a" means there is no data yet, never zero.\n\n'
         "<i>Powered by Cumulo Fibre Monitor · cumulo.pro</i>"
