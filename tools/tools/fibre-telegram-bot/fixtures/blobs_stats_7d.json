@@ -1,0 +1,63 @@
+{
+  "chain": "mocha-5",
+  "period": "7d",
+  "since": "2026-09-27T09:16:27.903Z",
+  "settlements": 8508,
+  "distinct_commitments": 8508,
+  "bytes": 143630532608,
+  "fees_utia": 30186015000,
+  "unknown_size": 0,
+  "size_buckets": [
+    {
+      "from_bytes": 0,
+      "to_bytes": 262144,
+      "blobs": 5,
+      "bytes": 1310720
+    },
+    {
+      "from_bytes": 262144,
+      "to_bytes": 1048576,
+      "blobs": 0,
+      "bytes": 0
+    },
+    {
+      "from_bytes": 1048576,
+      "to_bytes": 4194304,
+      "blobs": 12,
+      "bytes": 20971520
+    },
+    {
+      "from_bytes": 4194304,
+      "to_bytes": 16777216,
+      "blobs": 8471,
+      "bytes": 142074707968
+    },
+    {
+      "from_bytes": 16777216,
+      "to_bytes": 67108864,
+      "blobs": 10,
+      "bytes": 191365120
+    },
+    {
+      "from_bytes": 67108864,
+      "to_bytes": 134217728,
+      "blobs": 10,
+      "bytes": 1342177280
+    }
+  ],
+  "repeated_commitments": [],
+  "fee_check": {
+    "checked": 8508,
+    "matching": 8508,
+    "mismatches": []
+  },
+  "payment_formula": {
+    "fixed_gas": 650000,
+    "gas_per_chunk": 45000,
+    "chunk_bytes": 262144,
+    "utia_per_gas": 1,
+    "max_blob_bytes": 134217728,
+    "app_version": "10.2.0-mocha",
+    "app_commit": "3b77dc2f5"
+  }
+}

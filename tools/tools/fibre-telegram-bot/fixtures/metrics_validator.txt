@@ -1,0 +1,139 @@
+# Recorded from GET /v1/mocha-5/metrics?validator=celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx on 2026-10-04 (HELP lines trimmed)
+# TYPE fibre_exporter_info gauge
+fibre_exporter_info{chain="mocha-5",chain_id="mocha-5",network="testnet",version="1.24.3"} 1
+# TYPE fibre_chain_height gauge
+fibre_chain_height{chain="mocha-5"} 1370760
+# TYPE fibre_data_generated_timestamp_seconds gauge
+fibre_data_generated_timestamp_seconds{chain="mocha-5"} 1791105286
+# TYPE fibre_chain_data_timestamp_seconds gauge
+fibre_chain_data_timestamp_seconds{chain="mocha-5"} 1791105288
+# TYPE fibre_probe_up gauge
+fibre_probe_up{chain="mocha-5",region="US"} 1
+fibre_probe_up{chain="mocha-5",region="EU"} 1
+fibre_probe_up{chain="mocha-5",region="CA"} 1
+fibre_probe_up{chain="mocha-5",region="AS"} 1
+# TYPE fibre_bonded_validators gauge
+fibre_bonded_validators{chain="mocha-5"} 83
+# TYPE fibre_registered_validators gauge
+fibre_registered_validators{chain="mocha-5"} 78
+# TYPE fibre_ready_validators gauge
+fibre_ready_validators{chain="mocha-5"} 77
+# TYPE fibre_registered_stake_ratio gauge
+fibre_registered_stake_ratio{chain="mocha-5"} 0.9857
+# TYPE fibre_ready_stake_ratio gauge
+fibre_ready_stake_ratio{chain="mocha-5"} 0.9747
+# TYPE fibre_quorum_threshold_ratio gauge
+fibre_quorum_threshold_ratio{chain="mocha-5"} 0.6667
+# TYPE fibre_ready_meets_threshold gauge
+fibre_ready_meets_threshold{chain="mocha-5"} 1
+# TYPE fibre_validators_needed_to_threshold gauge
+fibre_validators_needed_to_threshold{chain="mocha-5"} 0
+# TYPE fibre_quorum_reached gauge
+fibre_quorum_reached{chain="mocha-5",region="US"} 1
+fibre_quorum_reached{chain="mocha-5",region="EU"} 1
+fibre_quorum_reached{chain="mocha-5",region="CA"} 1
+fibre_quorum_reached{chain="mocha-5",region="AS"} 1
+# TYPE fibre_quorum_rtt_seconds gauge
+fibre_quorum_rtt_seconds{chain="mocha-5",region="US"} 0.124
+fibre_quorum_rtt_seconds{chain="mocha-5",region="EU"} 0.097
+fibre_quorum_rtt_seconds{chain="mocha-5",region="CA"} 0.117
+fibre_quorum_rtt_seconds{chain="mocha-5",region="AS"} 0.204
+# TYPE fibre_quorum_validators_needed gauge
+fibre_quorum_validators_needed{chain="mocha-5",region="US"} 52
+fibre_quorum_validators_needed{chain="mocha-5",region="EU"} 46
+fibre_quorum_validators_needed{chain="mocha-5",region="CA"} 51
+fibre_quorum_validators_needed{chain="mocha-5",region="AS"} 46
+# TYPE fibre_liveness_coefficient gauge
+fibre_liveness_coefficient{chain="mocha-5",dimension="validators"} 5
+fibre_liveness_coefficient{chain="mocha-5",dimension="providers"} 3
+fibre_liveness_coefficient{chain="mocha-5",dimension="countries"} 3
+# TYPE fibre_liveness_margin_ratio gauge
+fibre_liveness_margin_ratio{chain="mocha-5",dimension="validators"} 0.01149
+fibre_liveness_margin_ratio{chain="mocha-5",dimension="providers"} 0.02819
+fibre_liveness_margin_ratio{chain="mocha-5",dimension="countries"} 0.01025
+# TYPE fibre_network_online_ratio_24h gauge
+fibre_network_online_ratio_24h{chain="mocha-5"} 0.9866
+# TYPE fibre_retention_checks_24h gauge
+fibre_retention_checks_24h{chain="mocha-5"} 3155
+# TYPE fibre_retention_served_ratio_24h gauge
+fibre_retention_served_ratio_24h{chain="mocha-5"} 0.9987
+# TYPE fibre_retention_obligations_served_ratio_24h gauge
+fibre_retention_obligations_served_ratio_24h{chain="mocha-5"} 1
+# TYPE fibre_rows_verified_ratio_24h gauge
+fibre_rows_verified_ratio_24h{chain="mocha-5"} 1
+# TYPE fibre_blobs_reconstructable_24h gauge
+fibre_blobs_reconstructable_24h{chain="mocha-5"} 14
+# TYPE fibre_blobs_availability_checked_24h gauge
+fibre_blobs_availability_checked_24h{chain="mocha-5"} 27
+# TYPE fibre_blobs_24h gauge
+fibre_blobs_24h{chain="mocha-5"} 27
+# TYPE fibre_escrow_module_balance_utia gauge
+fibre_escrow_module_balance_utia{chain="mocha-5"} 20921170000
+# TYPE fibre_validator_lookup_found gauge
+fibre_validator_lookup_found{chain="mocha-5",query="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx"} 1
+# TYPE fibre_validator_info gauge
+fibre_validator_info{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",operator_address="celestiavaloper16yv2p64nzps0lqcealnumrsqc2rcszkd0uzlp8"} 1
+# TYPE fibre_validator_registered gauge
+fibre_validator_registered{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 1
+# TYPE fibre_validator_ready gauge
+fibre_validator_ready{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 1
+# TYPE fibre_validator_stake_ratio gauge
+fibre_validator_stake_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 0.011
+# TYPE fibre_validator_regions_online gauge
+fibre_validator_regions_online{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 4
+# TYPE fibre_validator_regions_reporting gauge
+fibre_validator_regions_reporting{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 4
+# TYPE fibre_validator_typical_rtt_seconds gauge
+fibre_validator_typical_rtt_seconds{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 0.106
+# TYPE fibre_validator_region_up gauge
+fibre_validator_region_up{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="US"} 1
+fibre_validator_region_up{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="EU"} 1
+fibre_validator_region_up{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="CA"} 1
+fibre_validator_region_up{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="AS"} 1
+# TYPE fibre_validator_rtt_seconds gauge
+fibre_validator_rtt_seconds{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="US"} 0.001
+fibre_validator_rtt_seconds{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="EU"} 0.106
+fibre_validator_rtt_seconds{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="CA"} 0.026
+fibre_validator_rtt_seconds{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",region="AS"} 0.226
+# TYPE fibre_validator_identity_ok gauge
+fibre_validator_identity_ok{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 1
+# TYPE fibre_validator_cert_expiry_timestamp_seconds gauge
+fibre_validator_cert_expiry_timestamp_seconds{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 1821817497
+# TYPE fibre_validator_warnings gauge
+fibre_validator_warnings{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo"} 0
+# TYPE fibre_validator_online_ratio gauge
+fibre_validator_online_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 1
+fibre_validator_online_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 1
+fibre_validator_online_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 1
+# TYPE fibre_validator_signed_blobs gauge
+fibre_validator_signed_blobs{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 27
+fibre_validator_signed_blobs{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 7667
+fibre_validator_signed_blobs{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 7819
+# TYPE fibre_validator_signable_blobs gauge
+fibre_validator_signable_blobs{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 27
+fibre_validator_signable_blobs{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 8507
+fibre_validator_signable_blobs{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 8660
+# TYPE fibre_validator_signed_ratio gauge
+fibre_validator_signed_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 1
+fibre_validator_signed_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 0.9012577877
+fibre_validator_signed_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 0.902886836
+# TYPE fibre_validator_served_ratio gauge
+fibre_validator_served_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 1
+fibre_validator_served_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 1
+fibre_validator_served_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 1
+# TYPE fibre_validator_obligations_served_ratio gauge
+fibre_validator_obligations_served_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 1
+fibre_validator_obligations_served_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 1
+fibre_validator_obligations_served_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 1
+# TYPE fibre_validator_obligation_checks gauge
+fibre_validator_obligation_checks{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 41
+fibre_validator_obligation_checks{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 159
+fibre_validator_obligation_checks{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 171
+# TYPE fibre_validator_rows_verified_ratio gauge
+fibre_validator_rows_verified_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 1
+fibre_validator_rows_verified_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 1
+fibre_validator_rows_verified_ratio{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 1
+# TYPE fibre_validator_unreachable_checks gauge
+fibre_validator_unreachable_checks{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="24h"} 0
+fibre_validator_unreachable_checks{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="7d"} 0
+fibre_validator_unreachable_checks{chain="mocha-5",valcons="celestiavalcons14s4fvynqhq8u3rwmnef0r22hut6avrtylz0pfx",moniker="Cumulo",period="30d"} 0

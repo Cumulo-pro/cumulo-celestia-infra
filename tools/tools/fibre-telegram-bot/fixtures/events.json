@@ -1,0 +1,93 @@
+{
+  "chain": "mocha-5",
+  "tracking_since": "2026-09-25T14:45:00.627Z",
+  "events": [
+    {
+      "at": "2026-10-04T05:51:46.000Z",
+      "height": 1366494,
+      "txhash": "7F7E66D16EC7337C82FFC65148BF3E42BEF39B2ADEF3F930862455494DDC3D89",
+      "source": "tx",
+      "type": "escrow_deposit",
+      "signer": "celestia1jw8afsj3j0c23fxs09nu8pq5asxwes5e3kkxdx",
+      "amount": {
+        "denom": "utia",
+        "amount": "1000000000"
+      },
+      "amount_text": "1,000 TIA",
+      "id": "dafba42665ec9e68",
+      "title": "celestia1jw8a…3kkxdx deposited 1,000 TIA to Fibre escrow"
+    },
+    {
+      "at": "2026-10-03T21:22:10.487Z",
+      "type": "status",
+      "valcons": "celestiavalcons1gr2y25jpx2v6qfq08rvw9xy25hpxvncxtd2lr5",
+      "moniker": "P-OPS Team",
+      "from": "offline",
+      "to": "online",
+      "reason": null,
+      "source": "probe",
+      "id": "99e95b8a6f956ab5",
+      "title": "P-OPS Team: offline → online"
+    },
+    {
+      "at": "2026-10-03T20:58:10.225Z",
+      "type": "status",
+      "valcons": "celestiavalcons1gr2y25jpx2v6qfq08rvw9xy25hpxvncxtd2lr5",
+      "moniker": "P-OPS Team",
+      "from": "online",
+      "to": "offline",
+      "reason": null,
+      "source": "probe",
+      "id": "7e2418ed4e007fd0",
+      "title": "P-OPS Team: online → offline"
+    },
+    {
+      "at": "2026-10-02T13:39:48.000Z",
+      "height": 1315834,
+      "txhash": "6748A5A3A17A486B5850F64578C5B8A9643DAF9176318EA023F0AEF65FA61051",
+      "source": "tx",
+      "type": "registered",
+      "valcons": "celestiavalcons1wzsermmc5rytnd57qpdxskcxfsj5k8enwtt7qq",
+      "operator_address": "celestiavaloper1tzdw0j4faaslp4hr7qrcj6xh0knnkrc7ug3edp",
+      "moniker": "Kraken",
+      "host": "fibre-a.example.org:7980",
+      "id": "edeaa845bf714573",
+      "title": "Kraken registered its Fibre host fibre-a.example.org:7980"
+    },
+    {
+      "at": "2026-10-01T20:58:36.583Z",
+      "type": "status",
+      "valcons": "celestiavalcons17dzlj8xncd3r3a2s5qjgqrq29ngd04yu6v4lcc",
+      "moniker": "devops",
+      "from": "offline",
+      "to": "identity_fail",
+      "reason": "signature_invalid",
+      "source": "probe",
+      "id": "4df5ae4a555ea088",
+      "title": "devops: offline → identity_fail (signature_invalid)"
+    },
+    {
+      "at": "2026-09-28T16:48:52.000Z",
+      "height": 1199045,
+      "txhash": "B2BE3DBA3CA542AA1E22F4E28FD09EB4CFB781664B81AEFAEB79C7D95D00F19D",
+      "source": "tx",
+      "type": "host_reconfirmed",
+      "valcons": "celestiavalcons1uutfjwmx540y29m7akc40pc2p6x5jkcat0v4u5",
+      "operator_address": "celestiavaloper1gxmhld3mqc7qdxnl2h0uyguw0jffc36ln5aap3",
+      "moniker": "Ruby Nodes",
+      "host": "fibre-b.example.org:7980",
+      "id": "ce935b9a1f5756ef",
+      "title": "Ruby Nodes re-submitted its Fibre host fibre-b.example.org:7980"
+    },
+    {
+      "at": "2026-09-28T15:28:12.392Z",
+      "type": "left",
+      "valcons": "celestiavalcons1hsd9x2mfdja9f4qfral34ap47mvc7rfmalg5kl",
+      "moniker": "Upnode",
+      "host": "192.0.2.10:5980",
+      "source": "registry",
+      "id": "42889e0510676974",
+      "title": "Upnode left the bonded Fibre provider set"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "chain": "mocha-5",
+    "chain_id": "mocha-5",
+    "network": "testnet",
+    "height": 1370633,
+    "generated_at": "2026-10-04T09:12:46.054Z",
+    "chain_data_at": "2026-10-04T09:08:47.651Z",
+    "chain_error": null,
+    "regions": ["US", "EU", "CA", "AS"],
+    "live_regions": ["US", "EU", "CA", "AS"],
+    "region_continents": {"US": "NA", "EU": "EU", "CA": "NA", "AS": "AS"},
+    "continents": ["NA", "EU", "AS"],
+    "version": "1.24.3",
+    "windows": {
+      "h24": {"from": "2026-10-03T09:00:00.000Z", "to": "2026-10-04T09:12:46.054Z", "hours_nominal": 24},
+      "d7": {"from": "2026-09-27T09:00:00.000Z", "to": "2026-10-04T09:12:46.054Z", "hours_nominal": 168},
+      "d30": {"from": "2026-09-04T09:00:00.000Z", "to": "2026-10-04T09:12:46.054Z", "hours_nominal": 720}
+    }
+  },
+  "readiness": {
+    "bonded_validators": 83,
+    "bonded_tokens": 371550255025532,
+    "registered_validators": 78,
+    "registered_tokens": 366240143969169,
+    "ready_validators": 77,
+    "ready_tokens": 362140143969169,
+    "responding_validators": 77,
+    "registered_stake_pct": 98.57,
+    "ready_stake_pct": 97.47,
+    "threshold_pct": 66.67,
+    "registered_meets_threshold": true,
+    "ready_meets_threshold": true,
+    "validators_needed_to_threshold": 0,
+    "tiers": {
+      "ready": {"validators": 77, "stake_pct": 97.47, "tokens": 362140143969169},
+      "registered_not_ready": {"validators": 1, "stake_pct": 1.1, "tokens": 4100000000000},
+      "no_host": {"validators": 5, "stake_pct": 1.43, "tokens": 5310111056363}
+    },
+    "countries": 26,
+    "providers": 38,
+    "status_counts": {"online": 77, "offline": 1}
+  },
+  "quorum_by_region": [
+    {"region": "US", "reached": true, "quorum_rtt_ms": 124, "validators_needed": 53, "ready_validators": 77, "ready_stake_pct": 97.47, "quorum_rtt_ms_excl_same_asn": 131, "validators_needed_excl_same_asn": 52, "same_asn_hosts": 3},
+    {"region": "EU", "reached": true, "quorum_rtt_ms": 96, "validators_needed": 45, "ready_validators": 77, "ready_stake_pct": 97.47, "quorum_rtt_ms_excl_same_asn": 96, "validators_needed_excl_same_asn": 45, "same_asn_hosts": 0},
+    {"region": "CA", "reached": true, "quorum_rtt_ms": 116, "validators_needed": 51, "ready_validators": 77, "ready_stake_pct": 97.47, "quorum_rtt_ms_excl_same_asn": 120, "validators_needed_excl_same_asn": 52, "same_asn_hosts": 1},
+    {"region": "AS", "reached": true, "quorum_rtt_ms": 203, "validators_needed": 47, "ready_validators": 77, "ready_stake_pct": 97.47, "quorum_rtt_ms_excl_same_asn": 203, "validators_needed_excl_same_asn": 47, "same_asn_hosts": 0}
+  ],
+  "liveness_coefficient": {
+    "validators": 5,
+    "providers": 3,
+    "countries": 3,
+    "margin_pct_before_last": {"validators": 1.149, "providers": 2.819, "countries": 1.025},
+    "sets": {
+      "validators": [
+        {"valcons": "celestiavalcons17dzlj8xncd3r3a2s5qjgqrq29ngd04yu6v4lcc", "moniker": "devops", "ready_stake_pct": 11.8},
+        {"valcons": "celestiavalcons1gr2y25jpx2v6qfq08rvw9xy25hpxvncxtd2lr5", "moniker": "P-OPS Team", "ready_stake_pct": 6.22},
+        {"valcons": "celestiavalcons1ytjyl9mkgzf6j264mxxygcl5uje0ws4fu5gf0q", "moniker": "Qubelabs", "ready_stake_pct": 5.95},
+        {"valcons": "celestiavalcons1w94adt7wfvuytppgf0l20tatqje09pwgs80v7t", "moniker": "NakoTurk", "ready_stake_pct": 5.68},
+        {"valcons": "celestiavalcons1jfqfpw2f5w36gwhw2tzd4c6zxvk90d5y9kpzps", "moniker": "ITRocket", "ready_stake_pct": 2.72}
+      ],
+      "providers": [
+        {"key": "provider a", "label": "Provider A", "ready_stake_pct": 14.41},
+        {"key": "provider b", "label": "Provider B", "ready_stake_pct": 13.57},
+        {"key": "provider c", "label": "Provider C", "ready_stake_pct": 11.07}
+      ],
+      "countries": [
+        {"key": "US", "label": "United States", "ready_stake_pct": 15.07},
+        {"key": "FR", "label": "France", "ready_stake_pct": 14.71},
+        {"key": "DE", "label": "Germany", "ready_stake_pct": 9.08}
+      ]
+    }
+  },
+  "concentration": {
+    "by_country": [
+      {"key": "US", "label": "United States", "validators": 16, "stake_pct": 15.07, "ready_stake_pct": 15.07, "ready_without_pct": 82.4, "quorum_survives_loss": true},
+      {"key": "FR", "label": "France", "validators": 5, "stake_pct": 14.71, "ready_stake_pct": 14.71, "ready_without_pct": 82.76, "quorum_survives_loss": true},
+      {"key": "DE", "label": "Germany", "validators": 7, "stake_pct": 9.08, "ready_stake_pct": 9.08, "ready_without_pct": 88.39, "quorum_survives_loss": true},
+      {"key": "LT", "label": "Lithuania", "validators": 2, "stake_pct": 7.32, "ready_stake_pct": 7.32, "ready_without_pct": 90.14, "quorum_survives_loss": true}
+    ],
+    "by_provider": [
+      {"key": "provider a", "label": "Provider A", "validators": 3, "stake_pct": 14.41, "ready_stake_pct": 14.41, "ready_without_pct": 83.05, "quorum_survives_loss": true},
+      {"key": "provider b", "label": "Provider B", "validators": 4, "stake_pct": 13.57, "ready_stake_pct": 13.57, "ready_without_pct": 83.9, "quorum_survives_loss": true},
+      {"key": "provider c", "label": "Provider C", "validators": 13, "stake_pct": 11.07, "ready_stake_pct": 11.07, "ready_without_pct": 86.39, "quorum_survives_loss": true},
+      {"key": "provider d", "label": "Provider D", "validators": 5, "stake_pct": 10.9, "ready_stake_pct": 10.9, "ready_without_pct": 86.56, "quorum_survives_loss": true}
+    ]
+  },
+  "missing": [
+    {"valcons": "celestiavalcons184e00qtp2gc0kr942a8l6cuylecq8rmydnzk28", "moniker": "StakeUs", "operator_address": "celestiavaloper1gakqs6d9r042ljjmrexg793sgeac5xjkcmvrmt", "identity": "262F39D13E3AE9B7B9E01E7281D1AD803C0467F4", "rank": 50, "stake_pct": 0.57, "registered_pct_if_added": 99.14},
+    {"valcons": "celestiavalcons12zfzl8jc7e9n5gvcslm8z9lyeac54aystwnavz", "moniker": "KYVE Public Good Funding", "operator_address": "celestiavaloper1j6mjapwrznvgqkl9u9m4660se7vwufc6ct7lp6", "identity": "A1D451C6F491B1CF", "rank": 82, "stake_pct": 0, "registered_pct_if_added": 100}
+  ],
+  "params": {
+    "withdrawal_delay_s": 86400,
+    "payment_promise_timeout_s": 3600,
+    "payment_promise_height_window": 1000,
+    "shard_retention_s": 14400,
+    "full_stake_storage_budget_bytes": 2199023255552,
+    "fetched_at": "2026-10-04T08:27:31.041Z"
+  },
+  "escrow": {
+    "balance": [{"denom": "utia", "amount": "20921170000", "text": "20,921.17 TIA"}],
+    "fetched_at": "2026-10-04T09:08:48.142Z"
+  },
+  "payment_formula": {
+    "fixed_gas": 650000,
+    "gas_per_chunk": 45000,
+    "chunk_bytes": 262144,
+    "utia_per_gas": 1,
+    "max_blob_bytes": 134217728,
+    "app_version": "10.2.0-mocha",
+    "app_commit": "3b77dc2f5",
+    "checked_blobs": 8660,
+    "matching_blobs": 8660
+  },
+  "recent_events": [
+    {"at": "2026-10-04T09:00:10.000Z", "height": 1370454, "txhash": "444D4DD5C36110D5B3D0986FFA3D88214FE8352B69486B8960FB8216A13C39C5", "source": "tx", "type": "pay_for_fibre", "signer": "celestia1jw8afsj3j0c23fxs09nu8pq5asxwes5e3kkxdx", "blob_size": 1310720, "fee_utia": 875000, "signatures": 62, "set_size": 83, "endorsed_stake_pct": 72.35, "id": "b624c2870cbc0793", "title": "celestia1jw8a…3kkxdx paid 0.875 TIA for a 1.25 MiB blob"}
+  ],
+  "agents": [
+    {"region": "US", "ok": true, "last_cycle_at": "2026-10-04T09:12:32.215Z", "version": "1.6.0", "error": null},
+    {"region": "EU", "ok": true, "last_cycle_at": "2026-10-04T09:12:34.343Z", "version": "1.6.0", "error": null},
+    {"region": "CA", "ok": true, "last_cycle_at": "2026-10-04T09:12:20.602Z", "version": "1.6.0", "error": null},
+    {"region": "AS", "ok": true, "last_cycle_at": "2026-10-04T09:12:33.194Z", "version": "1.6.0", "error": null}
+  ],
+  "method": {
+    "uptime": "share of 1-minute checks with majority-ready status, hourly buckets"
+  },
+  "blobs_24h": {"blobs": 27, "bytes": 875036672, "fees_utia": 167760000, "timeouts": 0, "payers": 1, "namespaces": 5, "avg_endorsed_stake_pct": 70.09},
+  "network_uptime_24h": {"pct": 98.66, "ok": 111811, "total": 113334},
+  "history_since": "2026-09-25T15:00:00.000Z",
+  "retention_24h": {
+    "since": "2026-09-26T12:53:59.209Z",
+    "checks": 3155,
+    "served": 3151,
+    "served_pct": 99.87,
+    "obligations": {"served": 2803, "checked": 2803, "pct": 100},
+    "unreachable": 0,
+    "large": {"served": 304, "checked": 306, "pct": 99.35},
+    "verified": {"ok": 3151, "checked": 3151, "pct": 100},
+    "deleted_after_window": null,
+    "availability": {"blobs": 27, "reconstructable": 14, "pct": 51.85, "host_failures": 0},
+    "last_check_at": "2026-10-04T09:04:37.040Z",
+    "window_start": "2026-10-03T09:00:00.000Z",
+    "window_end": "2026-10-04T09:12:46.054Z",
+    "tracking_since": "2026-09-26T12:53:59.209Z",
+    "idle_reason": null
+  }
+}
