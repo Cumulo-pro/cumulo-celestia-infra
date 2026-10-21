@@ -21,6 +21,7 @@ No key, no sign-up: `GET` requests, open CORS, JSON and Prometheus formats.
 | Download the daily archive | [Usage guide, section 15](./fibre-api-guide.md#15-downloadable-archive-and-verification) |
 | Find every endpoint in one table | [Usage guide, section 18](./fibre-api-guide.md#18-endpoint-reference) |
 | Set up a Fibre server myself | [Fibre server setup](../fibre-setup/Fibre_Server_Setup.md) |
+| Build a bot on the API, or use ours | [Fibre Telegram bot](../../tools/fibre-telegram-bot/README.md) ([@CumuloFibreBot](https://t.me/CumuloFibreBot)) |
 
 ## Quick start
 
@@ -67,6 +68,10 @@ The dashboard values update by themselves because every badge reads the API live
 ```bash
 python3 generate_network_dashboard.py -o fibre-network-dashboard.md
 ```
+
+## Built on this API
+
+[**@CumuloFibreBot**](https://t.me/CumuloFibreBot) is a Telegram bot with Fibre network, validator and market reports and shareable report cards. Its source is in [`tools/fibre-telegram-bot`](../../tools/fibre-telegram-bot/) (Python, MIT), with notes for building your own client. Built something on the API? Tell us and we will list it here.
 
 ## Feedback
 
