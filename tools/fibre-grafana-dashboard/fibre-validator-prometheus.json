@@ -1,0 +1,1651 @@
+{
+ "__inputs": [
+  {
+   "name": "DS_PROMETHEUS",
+   "label": "Prometheus",
+   "description": "The Prometheus that scrapes the Fibre API (see the README)",
+   "type": "datasource",
+   "pluginId": "prometheus",
+   "pluginName": "Prometheus"
+  }
+ ],
+ "__requires": [
+  {
+   "type": "grafana",
+   "id": "grafana",
+   "name": "Grafana",
+   "version": "10.0.0"
+  },
+  {
+   "type": "datasource",
+   "id": "prometheus",
+   "name": "Prometheus",
+   "version": "1.0.0"
+  }
+ ],
+ "uid": "fibre-validator-prom",
+ "title": "Celestia Fibre · My validator",
+ "tags": [
+  "celestia",
+  "fibre"
+ ],
+ "description": "Your Celestia Fibre server as the Cumulo Fibre Network Monitor sees it, from the Fibre API's Prometheus metrics.",
+ "timezone": "utc",
+ "editable": true,
+ "graphTooltip": 1,
+ "liveNow": false,
+ "time": {
+  "from": "now-24h",
+  "to": "now"
+ },
+ "timepicker": {
+  "refresh_intervals": [
+   "1m",
+   "5m",
+   "15m",
+   "1h"
+  ]
+ },
+ "refresh": "1m",
+ "schemaVersion": 41,
+ "version": 1,
+ "weekStart": "",
+ "fiscalYearStartMonth": 0,
+ "links": [
+  {
+   "title": "Cumulo Fibre Network Monitor",
+   "type": "link",
+   "url": "https://cumulo.pro/services/celestia/fibre",
+   "targetBlank": true,
+   "icon": "external link"
+  },
+  {
+   "title": "Whole network (public Grafana)",
+   "type": "link",
+   "url": "https://fibre-grafana.cumulo.com.es/public-dashboards/e93d8dad529140739cff1616d89ffc3e",
+   "targetBlank": true,
+   "icon": "dashboard"
+  },
+  {
+   "title": "Fibre API docs",
+   "type": "link",
+   "url": "https://cumulo.pro/services/celestia_mocha/fibre-api",
+   "targetBlank": true,
+   "icon": "doc"
+  }
+ ],
+ "templating": {
+  "list": [
+   {
+    "type": "query",
+    "name": "chain",
+    "label": "Network",
+    "datasource": {
+     "type": "prometheus",
+     "uid": "${DS_PROMETHEUS}"
+    },
+    "query": "label_values(fibre_validator_info, chain)",
+    "definition": "label_values(fibre_validator_info, chain)",
+    "regex": "",
+    "refresh": 1,
+    "sort": 1,
+    "hide": 0,
+    "multi": false,
+    "includeAll": false,
+    "current": {},
+    "options": []
+   },
+   {
+    "type": "query",
+    "name": "valcons",
+    "label": "Validator",
+    "datasource": {
+     "type": "prometheus",
+     "uid": "${DS_PROMETHEUS}"
+    },
+    "query": "query_result(fibre_validator_info{chain=\"$chain\"})",
+    "definition": "query_result(fibre_validator_info{chain=\"$chain\"})",
+    "regex": "/moniker=\"(?<text>[^\"]*)\".*valcons=\"(?<value>[^\"]+)\"/",
+    "refresh": 1,
+    "sort": 1,
+    "hide": 0,
+    "multi": false,
+    "includeAll": false,
+    "current": {},
+    "options": []
+   }
+  ]
+ },
+ "annotations": {
+  "list": [
+   {
+    "builtIn": 1,
+    "datasource": {
+     "type": "grafana",
+     "uid": "-- Grafana --"
+    },
+    "enable": false,
+    "hide": true,
+    "iconColor": "rgba(0, 211, 255, 1)",
+    "name": "Annotations & Alerts",
+    "type": "dashboard"
+   }
+  ]
+ },
+ "panels": [
+  {
+   "id": 1,
+   "type": "text",
+   "title": "",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 24,
+    "h": 3
+   },
+   "options": {
+    "mode": "html",
+    "content": "<div style=\"border-left:4px solid #FFA500;padding:10px 16px;background:rgba(123,43,249,0.08);border-radius:4px;font-size:14px;line-height:1.65;color:#e5e7eb\"><b style=\"color:#ffffff\">Your Fibre server, as the Cumulo Fibre Network Monitor sees it</b>: checked every minute from four regions (US, EU, CA, AS), scraped by your Prometheus from the free public <a href=\"https://cumulo.pro/services/celestia_mocha/fibre-api\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#FFA500\">Fibre API</a>. Pick the network and your validator at the top. Full profile and history on <a href=\"https://cumulo.pro/services/celestia/fibre\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#FFA500\">cumulo.pro</a>.</div>",
+    "code": {
+     "language": "plaintext",
+     "showLineNumbers": false,
+     "showMiniMap": false
+    }
+   },
+   "transparent": true
+  },
+  {
+   "id": 2,
+   "type": "stat",
+   "title": "Status",
+   "description": "Ready when the majority of probe regions reach your server and verify its identity (fibre_validator_ready), how many of the 4 regions reach it, uptime 24h / 7d / 30d (share of one-minute checks ready), typical round trip, days until the identity certificate expires and active warnings (their text is on the status endpoint).",
+   "gridPos": {
+    "x": 0,
+    "y": 3,
+    "w": 24,
+    "h": 4
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ]
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Now"
+      },
+      "properties": [
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "1": {
+            "text": "Ready",
+            "color": "#22c55e",
+            "index": 0
+           },
+           "0": {
+            "text": "Not ready",
+            "color": "#f87171",
+            "index": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Regions up"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "none"
+       },
+       {
+        "id": "decimals",
+        "value": 0
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#f87171",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 1
+          },
+          {
+           "color": "#22c55e",
+           "value": 3
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "^Uptime .*"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "percent"
+       },
+       {
+        "id": "decimals",
+        "value": 2
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#f87171",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 90
+          },
+          {
+           "color": "#22c55e",
+           "value": 98
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Typical RTT"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "ms"
+       },
+       {
+        "id": "decimals",
+        "value": 0
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#22c55e",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 150
+          },
+          {
+           "color": "#f87171",
+           "value": 300
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Cert days left"
+      },
+      "properties": [
+       {
+        "id": "decimals",
+        "value": 0
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#f87171",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 7
+          },
+          {
+           "color": "#22c55e",
+           "value": 30
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Warnings"
+      },
+      "properties": [
+       {
+        "id": "decimals",
+        "value": 0
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#22c55e",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 1
+          }
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard",
+    "text": {
+     "titleSize": 13,
+     "valueSize": 24
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_ready{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "Now",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_regions_online{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "Regions up",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "C",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_online_ratio{chain=\"$chain\",valcons=\"$valcons\"} * 100",
+     "legendFormat": "Uptime {{period}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "D",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_typical_rtt_seconds{chain=\"$chain\",valcons=\"$valcons\"} * 1000",
+     "legendFormat": "Typical RTT",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "E",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "(fibre_validator_cert_expiry_timestamp_seconds{chain=\"$chain\",valcons=\"$valcons\"} - time()) / 86400",
+     "legendFormat": "Cert days left",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "F",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_warnings{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "Warnings",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 3,
+   "type": "stat",
+   "title": "Reached from each region",
+   "description": "Whether each probe region reaches your server and verifies it now (fibre_validator_region_up).",
+   "gridPos": {
+    "x": 0,
+    "y": 7,
+    "w": 8,
+    "h": 5
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "1": {
+         "text": "Up",
+         "color": "#22c55e",
+         "index": 0
+        },
+        "0": {
+         "text": "Down",
+         "color": "#f87171",
+         "index": 1
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ]
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "background",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard",
+    "text": {
+     "titleSize": 13,
+     "valueSize": 24
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_region_up{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "{{region}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 4,
+   "type": "stat",
+   "title": "Round trip from each region",
+   "description": "Current round trip from each probe region to your Fibre server.",
+   "gridPos": {
+    "x": 8,
+    "y": 7,
+    "w": 8,
+    "h": 5
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "ms",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       },
+       {
+        "color": "#22c55e",
+        "value": -1000000000000000.0
+       },
+       {
+        "color": "#fb923c",
+        "value": 150
+       },
+       {
+        "color": "#f87171",
+        "value": 300
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "decimals": 0
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard",
+    "text": {
+     "titleSize": 13,
+     "valueSize": 24
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_rtt_seconds{chain=\"$chain\",valcons=\"$valcons\"} * 1000",
+     "legendFormat": "{{region}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 5,
+   "type": "stat",
+   "title": "Signs and keeps the data",
+   "description": "Signs: blobs signed out of those you could sign (publishers stop at 2/3, so less than 100% is expected). Keeps: retention checks served for blobs you signed. Empty when there was no blob or check in that window.",
+   "gridPos": {
+    "x": 16,
+    "y": 7,
+    "w": 8,
+    "h": 5
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "percent",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       },
+       {
+        "color": "#f87171",
+        "value": -1000000000000000.0
+       },
+       {
+        "color": "#fb923c",
+        "value": 90
+       },
+       {
+        "color": "#22c55e",
+        "value": 98
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "decimals": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard",
+    "text": {
+     "titleSize": 13,
+     "valueSize": 24
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_signed_ratio{chain=\"$chain\",valcons=\"$valcons\"} * 100",
+     "legendFormat": "Signs {{period}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_obligations_served_ratio{chain=\"$chain\",valcons=\"$valcons\"} * 100",
+     "legendFormat": "Keeps {{period}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 6,
+   "type": "timeseries",
+   "title": "Round trip per region",
+   "description": "Round trip from each probe region over the selected time range, as scraped by your Prometheus.",
+   "gridPos": {
+    "x": 0,
+    "y": 12,
+    "w": 16,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "ms",
+     "color": {
+      "mode": "palette-classic"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "decimals": 0,
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 12,
+      "gradientMode": "opacity",
+      "showPoints": "never",
+      "pointSize": 4,
+      "spanNulls": false,
+      "lineInterpolation": "linear",
+      "axisBorderShow": false,
+      "axisPlacement": "auto",
+      "barAlignment": 0,
+      "insertNulls": false,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      },
+      "thresholdsStyle": {
+       "mode": "off"
+      }
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "US"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#256abf"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "EU"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#d55181"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "AS"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#a07de6"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "CA"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#256abf"
+        }
+       },
+       {
+        "id": "custom.lineStyle",
+        "value": {
+         "fill": "dash",
+         "dash": [
+          10,
+          6
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true,
+     "calcs": []
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_rtt_seconds{chain=\"$chain\",valcons=\"$valcons\"} * 1000",
+     "legendFormat": "{{region}}",
+     "editorMode": "code",
+     "range": true,
+     "instant": false,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 7,
+   "type": "state-timeline",
+   "title": "Ready from each region",
+   "description": "Green ready, red not ready, per probe region over the selected time range (fibre_validator_region_up).",
+   "gridPos": {
+    "x": 16,
+    "y": 12,
+    "w": 8,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       },
+       {
+        "color": "#f87171",
+        "value": -1000000000000000.0
+       },
+       {
+        "color": "#22c55e",
+        "value": 1
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "1": {
+         "text": "Up",
+         "color": "#22c55e",
+         "index": 0
+        },
+        "0": {
+         "text": "Down",
+         "color": "#f87171",
+         "index": 1
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "lineWidth": 0,
+      "fillOpacity": 85,
+      "hideFrom": {
+       "legend": false,
+       "tooltip": false,
+       "viz": false
+      }
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "mergeValues": true,
+    "showValue": "never",
+    "alignValue": "left",
+    "rowHeight": 0.85,
+    "perPage": 100,
+    "legend": {
+     "showLegend": false,
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "single",
+     "sort": "none",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_region_up{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "{{region}}",
+     "editorMode": "code",
+     "range": true,
+     "instant": false,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 8,
+   "type": "timeseries",
+   "title": "Signed and kept (24h window)",
+   "description": "The rolling 24h share of blobs signed and of retention checks served, over the selected time range.",
+   "gridPos": {
+    "x": 0,
+    "y": 20,
+    "w": 12,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "percent",
+     "color": {
+      "mode": "palette-classic"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "max": 100,
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 12,
+      "gradientMode": "opacity",
+      "showPoints": "never",
+      "pointSize": 4,
+      "spanNulls": false,
+      "lineInterpolation": "linear",
+      "axisBorderShow": false,
+      "axisPlacement": "auto",
+      "barAlignment": 0,
+      "insertNulls": false,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      },
+      "thresholdsStyle": {
+       "mode": "off"
+      }
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Signed 24h"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#c9b3ff"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Kept 24h"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#22c55e"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true,
+     "calcs": []
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_signed_ratio{chain=\"$chain\",valcons=\"$valcons\",period=\"24h\"} * 100",
+     "legendFormat": "Signed 24h",
+     "editorMode": "code",
+     "range": true,
+     "instant": false,
+     "format": "time_series"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_obligations_served_ratio{chain=\"$chain\",valcons=\"$valcons\",period=\"24h\"} * 100",
+     "legendFormat": "Kept 24h",
+     "editorMode": "code",
+     "range": true,
+     "instant": false,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 9,
+   "type": "stat",
+   "title": "Blobs signed",
+   "description": "Blobs you signed and blobs you could sign, 24h / 7d / 30d.",
+   "gridPos": {
+    "x": 12,
+    "y": 20,
+    "w": 12,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "locale",
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "#c9b3ff"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ]
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Since last signature"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "s"
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard"
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_signed_blobs{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "Signed {{period}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_validator_signable_blobs{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "Could sign {{period}}",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "C",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "time() - fibre_validator_last_signed_timestamp_seconds{chain=\"$chain\",valcons=\"$valcons\"}",
+     "legendFormat": "Since last signature",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 10,
+   "type": "stat",
+   "title": "The network",
+   "description": "Context: share of the stake whose Fibre server is ready, and whether it reaches the 2/3 payments need (fibre_ready_meets_threshold, computed exactly by the API).",
+   "gridPos": {
+    "x": 0,
+    "y": 28,
+    "w": 24,
+    "h": 4
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "#c9b3ff"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ]
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Ready stake"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "percent"
+       },
+       {
+        "id": "decimals",
+        "value": 1
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "2/3 reached"
+      },
+      "properties": [
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "1": {
+            "text": "2/3 reached",
+            "color": "#22c55e",
+            "index": 0
+           },
+           "0": {
+            "text": "Not yet",
+            "color": "#fb923c",
+            "index": 1
+           }
+          }
+         }
+        ]
+       },
+       {
+        "id": "color",
+        "value": {
+         "mode": "thresholds"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard",
+    "text": {
+     "titleSize": 13,
+     "valueSize": 24
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_ready_stake_ratio{chain=\"$chain\"} * 100",
+     "legendFormat": "Ready stake",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_ready_meets_threshold{chain=\"$chain\"}",
+     "legendFormat": "2/3 reached",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    },
+    {
+     "refId": "C",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "fibre_ready_validators{chain=\"$chain\"}",
+     "legendFormat": "Ready validators",
+     "editorMode": "code",
+     "range": false,
+     "instant": true,
+     "format": "time_series"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600
+  },
+  {
+   "id": 11,
+   "type": "text",
+   "title": "",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 32,
+    "w": 24,
+    "h": 2
+   },
+   "options": {
+    "mode": "html",
+    "content": "<div style=\"font-size:12px;color:#9ca3af\">Data: Cumulo Fibre Network Monitor API (<a href=\"https://fibre-api.cumulo.com.es\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#FFA500\">https://fibre-api.cumulo.com.es</a>), free and without a key. Dashboard by Cumulo, MIT licence. Scrape every 60 s (the API recomputes once a minute).</div>",
+    "code": {
+     "language": "plaintext",
+     "showLineNumbers": false,
+     "showMiniMap": false
+    }
+   },
+   "transparent": true
+  }
+ ]
+}

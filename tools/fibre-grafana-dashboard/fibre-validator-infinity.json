@@ -1,0 +1,2354 @@
+{
+ "__inputs": [
+  {
+   "name": "DS_FIBRE_API",
+   "label": "Infinity datasource",
+   "description": "Any Infinity datasource (no URL or auth needed: the panels call the public API by absolute URL)",
+   "type": "datasource",
+   "pluginId": "yesoreyeram-infinity-datasource",
+   "pluginName": "Infinity"
+  },
+  {
+   "name": "VAR_VALCONS",
+   "type": "constant",
+   "label": "Your validator's valcons",
+   "description": "Consensus address, celestiavalcons1... (the Fibre API keys validators by it)",
+   "value": ""
+  }
+ ],
+ "__requires": [
+  {
+   "type": "grafana",
+   "id": "grafana",
+   "name": "Grafana",
+   "version": "11.0.0"
+  },
+  {
+   "type": "datasource",
+   "id": "yesoreyeram-infinity-datasource",
+   "name": "Infinity",
+   "version": "2.7.1"
+  }
+ ],
+ "uid": "fibre-validator-pack",
+ "title": "Celestia Fibre · My validator",
+ "tags": [
+  "celestia",
+  "fibre"
+ ],
+ "description": "Your Celestia Fibre server as the Cumulo Fibre Network Monitor sees it, from the public Fibre API.",
+ "timezone": "utc",
+ "editable": true,
+ "graphTooltip": 1,
+ "liveNow": false,
+ "time": {
+  "from": "now-7d",
+  "to": "now"
+ },
+ "timepicker": {
+  "refresh_intervals": [
+   "5m",
+   "15m",
+   "1h"
+  ]
+ },
+ "refresh": "5m",
+ "schemaVersion": 41,
+ "version": 1,
+ "weekStart": "",
+ "fiscalYearStartMonth": 0,
+ "links": [
+  {
+   "title": "Cumulo Fibre Network Monitor",
+   "type": "link",
+   "url": "https://cumulo.pro/services/celestia/fibre",
+   "targetBlank": true,
+   "icon": "external link"
+  },
+  {
+   "title": "Fibre API docs",
+   "type": "link",
+   "url": "https://cumulo.pro/services/celestia_mocha/fibre-api",
+   "targetBlank": true,
+   "icon": "doc"
+  }
+ ],
+ "templating": {
+  "list": [
+   {
+    "type": "custom",
+    "name": "chain",
+    "label": "Network",
+    "query": "Mainnet : celestia, Mocha : mocha-5",
+    "current": {
+     "text": "Mainnet",
+     "value": "celestia"
+    },
+    "hide": 0,
+    "multi": false,
+    "includeAll": false,
+    "options": [
+     {
+      "text": "Mainnet",
+      "value": "celestia",
+      "selected": true
+     },
+     {
+      "text": "Mocha",
+      "value": "mocha-5",
+      "selected": false
+     }
+    ]
+   },
+   {
+    "type": "textbox",
+    "name": "valcons",
+    "label": "Validator (valcons)",
+    "query": "${VAR_VALCONS}",
+    "current": {
+     "text": "${VAR_VALCONS}",
+     "value": "${VAR_VALCONS}"
+    },
+    "hide": 0,
+    "options": [
+     {
+      "text": "${VAR_VALCONS}",
+      "value": "${VAR_VALCONS}",
+      "selected": true
+     }
+    ]
+   }
+  ]
+ },
+ "annotations": {
+  "list": [
+   {
+    "builtIn": 1,
+    "datasource": {
+     "type": "grafana",
+     "uid": "-- Grafana --"
+    },
+    "enable": false,
+    "hide": true,
+    "iconColor": "rgba(0, 211, 255, 1)",
+    "name": "Annotations & Alerts",
+    "type": "dashboard"
+   }
+  ]
+ },
+ "panels": [
+  {
+   "id": 1,
+   "type": "text",
+   "title": "",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 24,
+    "h": 3
+   },
+   "options": {
+    "mode": "html",
+    "content": "<div style=\"border-left:4px solid #FFA500;padding:10px 16px;background:rgba(123,43,249,0.08);border-radius:4px;font-size:14px;line-height:1.65;color:#e5e7eb\"><b style=\"color:#ffffff\">Your Fibre server, as the Cumulo Fibre Network Monitor sees it</b>: checked every minute from four regions (US, EU, CA, AS). Pick the network and paste your validator&#39;s <b>valcons</b> at the top. Every panel reads the free public <a href=\"https://cumulo.pro/services/celestia_mocha/fibre-api\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#FFA500\">Fibre API</a> (no key, about 12 requests per refresh). Full profile and history on <a href=\"https://cumulo.pro/services/celestia/fibre\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#FFA500\">cumulo.pro</a>.</div>",
+    "code": {
+     "language": "plaintext",
+     "showLineNumbers": false,
+     "showMiniMap": false
+    }
+   },
+   "transparent": true
+  },
+  {
+   "id": 2,
+   "type": "stat",
+   "title": "Status",
+   "description": "Your Fibre server right now: Ready (majority of probe regions), Partial (some regions only), Not ready, No host (no Fibre host registered) or Unknown when the monitor has no verdict (never shown as a failure). Then uptime 24h/7d/30d, typical round trip, days until the identity certificate expires and active warnings.",
+   "gridPos": {
+    "x": 0,
+    "y": 3,
+    "w": 24,
+    "h": 4
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ]
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Now"
+      },
+      "properties": [
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "Ready": {
+            "text": "Ready",
+            "color": "#22c55e",
+            "index": 0
+           },
+           "Partial": {
+            "text": "Partial",
+            "color": "#fb923c",
+            "index": 1
+           },
+           "Not ready": {
+            "text": "Not ready",
+            "color": "#f87171",
+            "index": 2
+           },
+           "No host": {
+            "text": "No host",
+            "color": "#9ca3af",
+            "index": 3
+           },
+           "Unknown": {
+            "text": "Unknown",
+            "color": "#9ca3af",
+            "index": 4
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "^Uptime .*"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "percent"
+       },
+       {
+        "id": "decimals",
+        "value": 2
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#f87171",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 90
+          },
+          {
+           "color": "#22c55e",
+           "value": 98
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Typical RTT"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "ms"
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#22c55e",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 150
+          },
+          {
+           "color": "#f87171",
+           "value": 300
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Cert days left"
+      },
+      "properties": [
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#f87171",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 7
+          },
+          {
+           "color": "#22c55e",
+           "value": 30
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Warnings"
+      },
+      "properties": [
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#22c55e",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 1
+          }
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard",
+    "text": {
+     "titleSize": 13,
+     "valueSize": 24
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/status?code=200",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := ({\"now\": status = \"online\" ? \"Ready\" : status = \"partial\" ? \"Partial\" : status = \"offline\" ? \"Not ready\" : status = \"no_host\" ? \"No host\" : \"Unknown\", \"up24\": uptime.h24, \"up7\": uptime.d7, \"up30\": uptime.d30, \"typical\": typical_rtt_ms, \"certdays\": identity_expires_at ? $floor(($toMillis(identity_expires_at) - $millis()) / 86400000), \"warnings\": $count(warnings)}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "now",
+       "text": "Now",
+       "type": "string"
+      },
+      {
+       "selector": "up24",
+       "text": "Uptime 24h",
+       "type": "number"
+      },
+      {
+       "selector": "up7",
+       "text": "Uptime 7d",
+       "type": "number"
+      },
+      {
+       "selector": "up30",
+       "text": "Uptime 30d",
+       "type": "number"
+      },
+      {
+       "selector": "typical",
+       "text": "Typical RTT",
+       "type": "number"
+      },
+      {
+       "selector": "certdays",
+       "text": "Cert days left",
+       "type": "number"
+      },
+      {
+       "selector": "warnings",
+       "text": "Warnings",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Now": 0,
+       "Uptime 24h": 1,
+       "Uptime 7d": 2,
+       "Uptime 30d": 3,
+       "Typical RTT": 4,
+       "Cert days left": 5,
+       "Warnings": 6
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "type": "table",
+   "title": "Each probe region",
+   "description": "Whether each of the four probe regions reaches your server now, and its round trip from there.",
+   "gridPos": {
+    "x": 0,
+    "y": 7,
+    "w": 8,
+    "h": 6
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "align": "auto",
+      "cellOptions": {
+       "type": "auto"
+      },
+      "inspect": false,
+      "filterable": false,
+      "minWidth": 80
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Status"
+      },
+      "properties": [
+       {
+        "id": "custom.cellOptions",
+        "value": {
+         "type": "color-text"
+        }
+       },
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "Online": {
+            "text": "Online",
+            "color": "#22c55e",
+            "index": 0
+           },
+           "Offline": {
+            "text": "Offline",
+            "color": "#f87171",
+            "index": 1
+           },
+           "partial": {
+            "text": "Partial",
+            "color": "#fb923c",
+            "index": 2
+           },
+           "unknown": {
+            "text": "Unknown",
+            "color": "#9ca3af",
+            "index": 3
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Round trip"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "ms"
+       },
+       {
+        "id": "custom.cellOptions",
+        "value": {
+         "type": "color-text"
+        }
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "#9ca3af",
+           "value": null
+          },
+          {
+           "color": "#22c55e",
+           "value": -1000000000000000.0
+          },
+          {
+           "color": "#fb923c",
+           "value": 150
+          },
+          {
+           "color": "#f87171",
+           "value": 300
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Validator"
+      },
+      "properties": [
+       {
+        "id": "custom.minWidth",
+        "value": 190
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "enablePagination": false,
+    "footer": {
+     "show": false,
+     "reducer": [
+      "sum"
+     ],
+     "countRows": false,
+     "fields": ""
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/status?code=200",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := ($each(regions, function($v, $k) {{\"region\": $k, \"status\": $v.status = \"online\" ? \"Online\" : $v.status = \"offline\" ? \"Offline\" : $v.status, \"rtt\": $v.rtt_ms}})); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "region",
+       "text": "Region",
+       "type": "string"
+      },
+      {
+       "selector": "status",
+       "text": "Status",
+       "type": "string"
+      },
+      {
+       "selector": "rtt",
+       "text": "Round trip",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Region": 0,
+       "Status": 1,
+       "Round trip": 2
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "type": "stat",
+   "title": "Signs and keeps the data",
+   "description": "Signs: blobs signed out of those you could sign (publishers stop at 2/3, so less than 100% is expected). Keeps: retention checks served for blobs you signed. 24h / 7d / 30d; empty when there was no blob or check in that window.",
+   "gridPos": {
+    "x": 8,
+    "y": 7,
+    "w": 8,
+    "h": 6
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "percent",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       },
+       {
+        "color": "#f87171",
+        "value": -1000000000000000.0
+       },
+       {
+        "color": "#fb923c",
+        "value": 90
+       },
+       {
+        "color": "#22c55e",
+        "value": 98
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "No data yet",
+         "color": "#9ca3af",
+         "index": 98
+        }
+       }
+      },
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "decimals": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "orientation": "auto",
+    "textMode": "value_and_name",
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "wideLayout": true,
+    "showPercentChange": false,
+    "percentChangeColorMode": "standard"
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/status?code=200",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := ({\"signed24\": signed_pct.h24, \"signed7\": signed_pct.d7, \"signed30\": signed_pct.d30, \"keeps24\": keeps_pct.h24, \"keeps7\": keeps_pct.d7, \"keeps30\": keeps_pct.d30}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "signed24",
+       "text": "Signs 24h",
+       "type": "number"
+      },
+      {
+       "selector": "signed7",
+       "text": "Signs 7d",
+       "type": "number"
+      },
+      {
+       "selector": "signed30",
+       "text": "Signs 30d",
+       "type": "number"
+      },
+      {
+       "selector": "keeps24",
+       "text": "Keeps 24h",
+       "type": "number"
+      },
+      {
+       "selector": "keeps7",
+       "text": "Keeps 7d",
+       "type": "number"
+      },
+      {
+       "selector": "keeps30",
+       "text": "Keeps 30d",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Signs 24h": 0,
+       "Signs 7d": 1,
+       "Signs 30d": 2,
+       "Keeps 24h": 3,
+       "Keeps 7d": 4,
+       "Keeps 30d": 5
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "type": "table",
+   "title": "Active warnings",
+   "description": "What the monitor flags for your server right now (certificate, identity, reachability...). The API docs explain each code.",
+   "gridPos": {
+    "x": 16,
+    "y": 7,
+    "w": 8,
+    "h": 6
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No warnings",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "align": "auto",
+      "cellOptions": {
+       "type": "auto"
+      },
+      "inspect": false,
+      "filterable": false,
+      "minWidth": 80
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Validator"
+      },
+      "properties": [
+       {
+        "id": "custom.minWidth",
+        "value": 190
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "enablePagination": false,
+    "footer": {
+     "show": false,
+     "reducer": [
+      "sum"
+     ],
+     "countRows": false,
+     "fields": ""
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/status?code=200",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (warnings.{\"code\": code, \"text\": text}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "code",
+       "text": "Code",
+       "type": "string"
+      },
+      {
+       "selector": "text",
+       "text": "Warning",
+       "type": "string"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Code": 0,
+       "Warning": 1
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "type": "timeseries",
+   "title": "Round trip per region (7 days, hourly median)",
+   "description": "Hourly median round trip from each probe region (/validator/{valcons}/history?days=7).",
+   "gridPos": {
+    "x": 0,
+    "y": 13,
+    "w": 16,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "ms",
+     "color": {
+      "mode": "palette-classic"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 12,
+      "gradientMode": "opacity",
+      "showPoints": "never",
+      "pointSize": 4,
+      "spanNulls": false,
+      "lineInterpolation": "linear",
+      "axisBorderShow": false,
+      "axisPlacement": "auto",
+      "barAlignment": 0,
+      "insertNulls": false,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      },
+      "thresholdsStyle": {
+       "mode": "off"
+      }
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "US"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#256abf"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "EU"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#d55181"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "AS"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#a07de6"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "CA"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#256abf"
+        }
+       },
+       {
+        "id": "custom.lineStyle",
+        "value": {
+         "fill": "dash",
+         "dash": [
+          10,
+          6
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true,
+     "calcs": []
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/history?days=7",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (points.{\"t\": t, \"US\": rtt_by_region.US.p50_ms, \"EU\": rtt_by_region.EU.p50_ms, \"CA\": rtt_by_region.CA.p50_ms, \"AS\": rtt_by_region.AS.p50_ms}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "t",
+       "text": "Time",
+       "type": "timestamp"
+      },
+      {
+       "selector": "US",
+       "text": "US",
+       "type": "number"
+      },
+      {
+       "selector": "EU",
+       "text": "EU",
+       "type": "number"
+      },
+      {
+       "selector": "CA",
+       "text": "CA",
+       "type": "number"
+      },
+      {
+       "selector": "AS",
+       "text": "AS",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Time": 0,
+       "US": 1,
+       "EU": 2,
+       "CA": 3,
+       "AS": 4
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ],
+   "timeFrom": "7d",
+   "hideTimeOverride": false
+  },
+  {
+   "id": 7,
+   "type": "timeseries",
+   "title": "Uptime per hour (7 days)",
+   "description": "Share of one-minute checks answered ready, per hour.",
+   "gridPos": {
+    "x": 16,
+    "y": 13,
+    "w": 8,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "percent",
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "#22c55e"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       },
+       {
+        "color": "#f87171",
+        "value": -1000000000000000.0
+       },
+       {
+        "color": "#fb923c",
+        "value": 90
+       },
+       {
+        "color": "#22c55e",
+        "value": 98
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "max": 100,
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 12,
+      "gradientMode": "opacity",
+      "showPoints": "never",
+      "pointSize": 4,
+      "spanNulls": false,
+      "lineInterpolation": "stepAfter",
+      "axisBorderShow": false,
+      "axisPlacement": "auto",
+      "barAlignment": 0,
+      "insertNulls": false,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      },
+      "thresholdsStyle": {
+       "mode": "off"
+      }
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true,
+     "calcs": []
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/history?days=7",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (points.{\"t\": t, \"Uptime\": uptime}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "t",
+       "text": "Time",
+       "type": "timestamp"
+      },
+      {
+       "selector": "Uptime",
+       "text": "Uptime",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Time": 0,
+       "Uptime": 1
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ],
+   "timeFrom": "7d",
+   "hideTimeOverride": false
+  },
+  {
+   "id": 8,
+   "type": "table",
+   "title": "Signing by period",
+   "description": "Blobs you signed out of those you could sign, your rank among validators, and the median of your 6 nearest peers by round trip. Publishers stop at 2/3, so less than 100% is expected.",
+   "gridPos": {
+    "x": 0,
+    "y": 21,
+    "w": 24,
+    "h": 5
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "align": "auto",
+      "cellOptions": {
+       "type": "auto"
+      },
+      "inspect": false,
+      "filterable": false,
+      "minWidth": 80
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "^(Share|Peers median)$"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "percent"
+       },
+       {
+        "id": "decimals",
+        "value": 2
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Validator"
+      },
+      "properties": [
+       {
+        "id": "custom.minWidth",
+        "value": 190
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "enablePagination": false,
+    "footer": {
+     "show": false,
+     "reducer": [
+      "sum"
+     ],
+     "countRows": false,
+     "fields": ""
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/checks",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := ($each(signing.by_period, function($v, $k) {{\"period\": $k = \"h24\" ? \"24h\" : $k = \"d7\" ? \"7d\" : \"30d\", \"signed\": $v.signed, \"could\": $v.could_sign, \"share\": $v.share_pct, \"rank\": $v.rank ? ($string($v.rank) & \" of \" & $string($v.ranked)), \"peers\": $v.peers.median_share_pct}})); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "period",
+       "text": "Period",
+       "type": "string"
+      },
+      {
+       "selector": "signed",
+       "text": "Signed",
+       "type": "number"
+      },
+      {
+       "selector": "could",
+       "text": "Could sign",
+       "type": "number"
+      },
+      {
+       "selector": "share",
+       "text": "Share",
+       "type": "number"
+      },
+      {
+       "selector": "rank",
+       "text": "Rank",
+       "type": "string"
+      },
+      {
+       "selector": "peers",
+       "text": "Peers median",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Period": 0,
+       "Signed": 1,
+       "Could sign": 2,
+       "Share": 3,
+       "Rank": 4,
+       "Peers median": 5
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "type": "timeseries",
+   "title": "Signatures per day",
+   "description": "Blobs signed vs blobs you could sign, per day.",
+   "gridPos": {
+    "x": 0,
+    "y": 26,
+    "w": 12,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "palette-classic"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "drawStyle": "bars",
+      "lineWidth": 2,
+      "fillOpacity": 60,
+      "gradientMode": "opacity",
+      "showPoints": "never",
+      "pointSize": 4,
+      "spanNulls": false,
+      "lineInterpolation": "linear",
+      "axisBorderShow": false,
+      "axisPlacement": "auto",
+      "barAlignment": 0,
+      "insertNulls": false,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      },
+      "thresholdsStyle": {
+       "mode": "off"
+      }
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Signed"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#22c55e"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Could sign"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#9ca3af"
+        }
+       },
+       {
+        "id": "custom.fillOpacity",
+        "value": 25
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true,
+     "calcs": []
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/checks",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (signing_daily.{\"day\": day, \"Signed\": signed, \"Could sign\": could_sign}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "day",
+       "text": "Time",
+       "type": "timestamp"
+      },
+      {
+       "selector": "Signed",
+       "text": "Signed",
+       "type": "number"
+      },
+      {
+       "selector": "Could sign",
+       "text": "Could sign",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Time": 0,
+       "Signed": 1,
+       "Could sign": 2
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ],
+   "timeFrom": "30d",
+   "hideTimeOverride": false
+  },
+  {
+   "id": 10,
+   "type": "timeseries",
+   "title": "Retention checks per day",
+   "description": "Retention checks run against your server per day, served, and unreachable.",
+   "gridPos": {
+    "x": 12,
+    "y": 26,
+    "w": 12,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "palette-classic"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "drawStyle": "bars",
+      "lineWidth": 2,
+      "fillOpacity": 60,
+      "gradientMode": "opacity",
+      "showPoints": "never",
+      "pointSize": 4,
+      "spanNulls": false,
+      "lineInterpolation": "linear",
+      "axisBorderShow": false,
+      "axisPlacement": "auto",
+      "barAlignment": 0,
+      "insertNulls": false,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      },
+      "thresholdsStyle": {
+       "mode": "off"
+      }
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Checks"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#9ca3af"
+        }
+       },
+       {
+        "id": "custom.fillOpacity",
+        "value": 25
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Served"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#22c55e"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Unreachable"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#f87171"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true,
+     "calcs": []
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc",
+     "hideZeros": false
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/checks",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (daily.{\"day\": day, \"Checks\": checks, \"Served\": served, \"Unreachable\": unreachable}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "day",
+       "text": "Time",
+       "type": "timestamp"
+      },
+      {
+       "selector": "Checks",
+       "text": "Checks",
+       "type": "number"
+      },
+      {
+       "selector": "Served",
+       "text": "Served",
+       "type": "number"
+      },
+      {
+       "selector": "Unreachable",
+       "text": "Unreachable",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Time": 0,
+       "Checks": 1,
+       "Served": 2,
+       "Unreachable": 3
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ],
+   "timeFrom": "30d",
+   "hideTimeOverride": false
+  },
+  {
+   "id": 11,
+   "type": "table",
+   "title": "Latest blobs you signed",
+   "description": "Most recent blobs carrying your signature.",
+   "gridPos": {
+    "x": 0,
+    "y": 34,
+    "w": 12,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "align": "auto",
+      "cellOptions": {
+       "type": "auto"
+      },
+      "inspect": false,
+      "filterable": false,
+      "minWidth": 80
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Size"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "bytes"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Signed stake"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "percent"
+       },
+       {
+        "id": "decimals",
+        "value": 2
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Time"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "dateTimeAsIso"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Validator"
+      },
+      "properties": [
+       {
+        "id": "custom.minWidth",
+        "value": 190
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "enablePagination": false,
+    "footer": {
+     "show": false,
+     "reducer": [
+      "sum"
+     ],
+     "countRows": false,
+     "fields": ""
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/blobs?role=signed&limit=15",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (blobs.{\"at\": at, \"height\": height, \"namespace\": namespace_text, \"size\": blob_size, \"role\": \"signed\", \"endorsed\": endorsed_stake_pct}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "at",
+       "text": "Time",
+       "type": "timestamp"
+      },
+      {
+       "selector": "height",
+       "text": "Height",
+       "type": "number"
+      },
+      {
+       "selector": "namespace",
+       "text": "Namespace",
+       "type": "string"
+      },
+      {
+       "selector": "size",
+       "text": "Size",
+       "type": "number"
+      },
+      {
+       "selector": "endorsed",
+       "text": "Signed stake",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Time": 0,
+       "Height": 1,
+       "Namespace": 2,
+       "Size": 3,
+       "Signed stake": 4
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "type": "table",
+   "title": "Latest blobs without your signature",
+   "description": "Blobs you could have signed but the publisher did not collect (usually because 2/3 was already reached).",
+   "gridPos": {
+    "x": 12,
+    "y": 34,
+    "w": 12,
+    "h": 8
+   },
+   "fieldConfig": {
+    "defaults": {
+     "noValue": "No data yet",
+     "unit": "none",
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "#9ca3af",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "special",
+       "options": {
+        "match": "null",
+        "result": {
+         "text": "no data",
+         "color": "#9ca3af",
+         "index": 99
+        }
+       }
+      }
+     ],
+     "custom": {
+      "align": "auto",
+      "cellOptions": {
+       "type": "auto"
+      },
+      "inspect": false,
+      "filterable": false,
+      "minWidth": 80
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Size"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "bytes"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Signed stake"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "percent"
+       },
+       {
+        "id": "decimals",
+        "value": 2
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Time"
+      },
+      "properties": [
+       {
+        "id": "unit",
+        "value": "dateTimeAsIso"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "Validator"
+      },
+      "properties": [
+       {
+        "id": "custom.minWidth",
+        "value": 190
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "enablePagination": false,
+    "footer": {
+     "show": false,
+     "reducer": [
+      "sum"
+     ],
+     "countRows": false,
+     "fields": ""
+    }
+   },
+   "transparent": false,
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "${DS_FIBRE_API}"
+     },
+     "type": "json",
+     "source": "url",
+     "parser": "backend",
+     "format": "table",
+     "url": "https://fibre-api.cumulo.com.es/v1/${chain}/validator/${valcons}/blobs?role=not_collected&limit=15",
+     "url_options": {
+      "method": "GET",
+      "data": ""
+     },
+     "root_selector": "($d := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b != 0) ? $a / $b }; $p := function($a, $b) { ($type($a) = 'number' and $type($b) = 'number' and $b > 0) ? 100 * $a / $b }; $r := (blobs.{\"at\": at, \"height\": height, \"namespace\": namespace_text, \"size\": blob_size, \"role\": \"not_collected\", \"endorsed\": endorsed_stake_pct}); $exists($r) ? $r : [])",
+     "columns": [
+      {
+       "selector": "at",
+       "text": "Time",
+       "type": "timestamp"
+      },
+      {
+       "selector": "height",
+       "text": "Height",
+       "type": "number"
+      },
+      {
+       "selector": "namespace",
+       "text": "Namespace",
+       "type": "string"
+      },
+      {
+       "selector": "size",
+       "text": "Size",
+       "type": "number"
+      },
+      {
+       "selector": "endorsed",
+       "text": "Signed stake",
+       "type": "number"
+      }
+     ],
+     "filters": [],
+     "computed_columns": []
+    }
+   ],
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "${DS_FIBRE_API}"
+   },
+   "interval": "1m",
+   "maxDataPoints": 600,
+   "cacheTimeout": "60",
+   "queryCachingTTL": 60000,
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "Time": 0,
+       "Height": 1,
+       "Namespace": 2,
+       "Size": 3,
+       "Signed stake": 4
+      },
+      "excludeByName": {},
+      "renameByName": {}
+     }
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "type": "text",
+   "title": "",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 42,
+    "w": 24,
+    "h": 2
+   },
+   "options": {
+    "mode": "html",
+    "content": "<div style=\"font-size:12px;color:#9ca3af\">Data: Cumulo Fibre Network Monitor API (<a href=\"https://fibre-api.cumulo.com.es\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#FFA500\">https://fibre-api.cumulo.com.es</a>), free and without a key. Dashboard by Cumulo, MIT licence. Rate limit 120 requests per minute per address: keep the refresh at 5 minutes or more.</div>",
+    "code": {
+     "language": "plaintext",
+     "showLineNumbers": false,
+     "showMiniMap": false
+    }
+   },
+   "transparent": true
+  }
+ ]
+}
