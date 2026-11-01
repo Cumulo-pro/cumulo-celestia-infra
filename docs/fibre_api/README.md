@@ -23,6 +23,8 @@ No key, no sign-up: `GET` requests, open CORS, JSON and Prometheus formats.
 | Check whether my validator's Fibre host is ready | [Usage guide, section 2](./fibre-api-guide.md#2-validator-status) |
 | Add a status or uptime badge to my README | [Usage guide, section 12](./fibre-api-guide.md#12-badges) |
 | Scrape metrics and set up alerts | [Usage guide, section 13](./fibre-api-guide.md#13-prometheus-and-alerts) |
+| See the whole network in Grafana | [Public Fibre Grafana](https://fibre-grafana.cumulo.com.es/public-dashboards/e93d8dad529140739cff1616d89ffc3e) |
+| Watch my validator's Fibre server in my own Grafana | [Grafana dashboard pack](../../tools/fibre-grafana-dashboard/README.md) |
 | Plug an uptime monitor into my host's status | [Usage guide, section 14](./fibre-api-guide.md#14-uptime-monitors) |
 | Explore blobs, publishers, escrow and fees | [Usage guide, sections 8 and 9](./fibre-api-guide.md#8-publishers-and-escrow) |
 | Download the daily archive | [Usage guide, section 15](./fibre-api-guide.md#15-downloadable-archive-and-verification) |
@@ -80,6 +82,7 @@ python3 generate_network_dashboard.py -o fibre-network-dashboard.md
 ## Built on this API
 
 [**@CumuloFibreBot**](https://t.me/CumuloFibreBot) is a Telegram bot with Fibre network, validator and market reports and shareable report cards. Its source is in [`tools/fibre-telegram-bot`](../../tools/fibre-telegram-bot/) (Python, MIT), with notes for building your own client. Built something on the API? Tell us and we will list it here.
+**Fibre Grafana**: the [public dashboards](https://fibre-grafana.cumulo.com.es/public-dashboards/e93d8dad529140739cff1616d89ffc3e) show the whole network (readiness, latency, decentralization, signatures, market), and the [dashboard pack](../../tools/fibre-grafana-dashboard/) puts your own validator in your Grafana, from the API's Prometheus metrics or with the Infinity plugin.  
 
 ## Feedback
 
