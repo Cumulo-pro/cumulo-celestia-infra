@@ -752,6 +752,9 @@ The full list (72 families) is always in the `/metrics` response itself. The mos
 | `fibre_validator_obligations_served_ratio` | `period` | **Retention**: rows served for blobs it signed. |
 | `fibre_data_generated_timestamp_seconds` | | When these figures were computed. |
 
+> [!TIP]
+> Ready-made Grafana dashboard for your validator on these metrics: [tools/fibre-grafana-dashboard](../../tools/fibre-grafana-dashboard/README.md). Import it, pick your Prometheus and your validator.
+> 
 ---
 
 ## 14. Uptime monitors
